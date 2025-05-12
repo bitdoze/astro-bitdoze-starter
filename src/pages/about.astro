@@ -35,17 +35,30 @@ const ctaSection = aboutPageConfig.sections.find(section => section.type === "ct
       <div class="container">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 class="text-3xl font-bold mb-6">{storySection.title}</h2>
-            {storySection.paragraphs.map(paragraph => (
-              <p class="mb-6" style="color: var(--color-text-light);">{paragraph}</p>
-            ))}
+            <h2 class="text-3xl font-bold mb-2">{storySection.title}</h2>
+            <p class="text-lg mb-6" style="color: var(--color-text-light);">{storySection.subtitle}</p>
+            <div class="story-content prose prose-lg" set:html={storySection.content} />
+            
+            {storySection.stats && (
+              <div class="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t pt-8" style="border-color: var(--color-text-lighter);">
+                {storySection.stats.map((stat, index) => (
+                  <div class="stat-item" style={`animation-delay: ${index * 0.2}s;`}>
+                    <p class="text-4xl font-bold mb-1" style="color: var(--color-primary);">{stat.value}</p>
+                    <p class="text-sm font-medium" style="color: var(--color-text-light);">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-          <div class="p-8 flex flex-col items-center text-center" style="background-color: var(--color-background-alt); border-radius: var(--radius-lg);">
-            <Icon name={storySection.mission.icon} class="w-16 h-16 mb-4" style="color: var(--color-primary);" />
-            <h3 class="text-2xl font-bold mb-4">{storySection.mission.title}</h3>
-            <p style="color: var(--color-text-light);">
-              {storySection.mission.description}
-            </p>
+          <div class="relative">
+            <div class="absolute -top-4 -left-4 w-24 h-24 rounded-full" style="background-color: var(--color-secondary); opacity: 0.1;"></div>
+            <div class="absolute -bottom-4 -right-4 w-32 h-32 rounded-full" style="background-color: var(--color-primary); opacity: 0.1;"></div>
+            <img 
+              src={storySection.image} 
+              alt="Our Story" 
+              class="w-full rounded-xl shadow-lg relative z-10"
+              style="border-radius: var(--radius-xl);"
+            />
           </div>
         </div>
       </div>
@@ -63,9 +76,9 @@ const ctaSection = aboutPageConfig.sections.find(section => section.type === "ct
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
           {valuesSection.values.map(value => (
-            <div class="p-6 flex flex-col items-center text-center" style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);">
+            <div class="p-6 flex flex-col items-center text-center transition-transform hover:-translate-y-2 duration-300" style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);">
               <Icon name={value.icon} class="w-12 h-12 mb-4" style="color: var(--color-primary);" />
               <h3 class="text-xl font-bold mb-2">{value.title}</h3>
               <p style="color: var(--color-text-light);">{value.description}</p>
@@ -80,22 +93,43 @@ const ctaSection = aboutPageConfig.sections.find(section => section.type === "ct
   {teamSection && (
     <section class="section-padding">
       <div class="container">
-        <div class="text-center mb-16">
+        <div class="text-center mb-12">
           <h2 class="text-3xl font-bold mb-4">{teamSection.title}</h2>
-          <p class="max-w-2xl mx-auto" style="color: var(--color-text-light);">
+          <p class="max-w-2xl mx-auto text-lg" style="color: var(--color-text-light);">
             {teamSection.subtitle}
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {teamSection.members.map(member => (
+          {teamSection.team.map(member => (
             <div class="p-6 flex flex-col items-center text-center" style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);">
-              <div class="w-24 h-24 rounded-full flex items-center justify-center mb-4" style="background-color: var(--color-background-alt);">
-                <Icon name={member.icon} class="w-12 h-12" style="color: var(--color-text-lighter);" />
+              <div class="w-28 h-28 rounded-full overflow-hidden mb-4 border-2" style="border-color: var(--color-primary-light);">
+                <img 
+                  src={member.image} 
+                  alt={member.name} 
+                  class="w-full h-full object-cover"
+                />
               </div>
               <h3 class="text-xl font-bold mb-1">{member.name}</h3>
-              <p class="mb-4" style="color: var(--color-primary);">{member.position}</p>
-              <p style="color: var(--color-text-light);">{member.bio}</p>
+              <p class="mb-4" style="color: var(--color-primary);">{member.role}</p>
+              <p class="text-sm" style="color: var(--color-text-light);">{member.bio}</p>
+              
+              {member.socialMedia && (
+                <div class="mt-4 flex space-x-3">
+                    {member.socialMedia.map(social => (
+                      <a 
+                        href={social.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-primary transition-colors"
+                        style="color: var(--color-text-light); hover:color: var(--color-primary);"
+                        aria-label={social.platform}
+                      >
+                        <Icon name={social.icon} class="h-5 w-5" />
+                      </a>
+                    ))}
+                  </div>
+              )}
             </div>
           ))}
         </div>
@@ -112,6 +146,32 @@ const ctaSection = aboutPageConfig.sections.find(section => section.type === "ct
       ctaLink={ctaSection.ctaPrimary.link}
       secondaryText={ctaSection.ctaSecondary?.text}
       secondaryLink={ctaSection.ctaSecondary?.link}
+      trustedBy={ctaSection.trustedBy}
     />
   )}
 </Layout>
+
+<style>
+  .story-content {
+    color: var(--color-text-light);
+  }
+  
+  .story-content p {
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
+  }
+  
+  .story-content p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .stat-item {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

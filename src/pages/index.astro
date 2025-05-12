@@ -30,6 +30,7 @@ const ctaSection = homePageConfig.sections.find(section => section.type === "cta
       ctaPrimaryLink={heroSection.ctaPrimary.link}
       ctaSecondaryLink={heroSection.ctaSecondary?.link}
       imageUrl={heroSection.imageUrl}
+      stats={heroSection.stats}
     />
   )}
   
@@ -37,6 +38,11 @@ const ctaSection = homePageConfig.sections.find(section => section.type === "cta
     <Welcome 
       title={welcomeSection.title}
       subtitle={welcomeSection.subtitle}
+      features={welcomeSection.features}
+      ctas={welcomeSection.ctas}
+      image={welcomeSection.image}
+      badge={welcomeSection.badge}
+      welcomeButtons={welcomeSection.ctas.welcome}
     />
   )}
   
@@ -46,6 +52,7 @@ const ctaSection = homePageConfig.sections.find(section => section.type === "cta
       sectionSubtitle={servicesSection.subtitle}
       showAllServices={servicesSection.showAllServices}
       limit={servicesSection.limit}
+      cta={servicesSection.cta}
     />
   )}
   
@@ -65,6 +72,7 @@ const ctaSection = homePageConfig.sections.find(section => section.type === "cta
       ctaLink={ctaSection.ctaPrimary.link}
       secondaryText={ctaSection.ctaSecondary?.text}
       secondaryLink={ctaSection.ctaSecondary?.link}
+      trustedBy={ctaSection.trustedBy}
     />
   )}
 </Layout>

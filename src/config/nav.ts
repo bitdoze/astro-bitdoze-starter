@@ -11,6 +11,10 @@ export interface NavConfig {
     resources: NavItem[];
     legal: NavItem[];
   };
+  ctaButton?: {
+    text: string;
+    href: string;
+  };
 }
 
 export const navConfig: NavConfig = {
@@ -32,6 +36,10 @@ export const navConfig: NavConfig = {
       href: "/contact",
     },
   ],
+  ctaButton: {
+    text: "Get in Touch",
+    href: "/contact",
+  },
   footerNav: {
     company: [
       {

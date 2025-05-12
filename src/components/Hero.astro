@@ -11,6 +11,10 @@ interface Props {
   ctaPrimaryLink?: string;
   ctaSecondaryLink?: string;
   imageUrl?: string;
+  stats?: {
+    value: string;
+    label: string;
+  }[];
 }
 
 const {
@@ -20,7 +24,12 @@ const {
   ctaSecondary = ctaConfig.secondaryAction?.text || "Learn More",
   ctaPrimaryLink = ctaConfig.primaryAction.href,
   ctaSecondaryLink = ctaConfig.secondaryAction?.href || "/services",
-  imageUrl = imageAssets.hero.main
+  imageUrl = imageAssets.hero.main,
+  stats = [
+    { value: "98%", label: "Customer satisfaction" },
+    { value: "15+", label: "Years experience" },
+    { value: "500+", label: "Clients served" }
+  ]
 } = Astro.props;
 ---
 
@@ -64,18 +73,12 @@ const {
         
         <!-- Stats -->
         <div class="mt-12 flex flex-wrap gap-x-8 gap-y-4 opacity-75">
-          <div class="stat-item">
-            <p class="text-3xl font-bold" style="color: var(--color-primary);">98%</p>
-            <p class="text-sm" style="color: var(--color-text-light);">Customer satisfaction</p>
-          </div>
-          <div class="stat-item">
-            <p class="text-3xl font-bold" style="color: var(--color-primary);">15+</p>
-            <p class="text-sm" style="color: var(--color-text-light);">Years experience</p>
-          </div>
-          <div class="stat-item">
-            <p class="text-3xl font-bold" style="color: var(--color-primary);">500+</p>
-            <p class="text-sm" style="color: var(--color-text-light);">Clients served</p>
-          </div>
+          {stats.map((stat, index) => (
+            <div class="stat-item">
+              <p class="text-3xl font-bold" style="color: var(--color-primary);">{stat.value}</p>
+              <p class="text-sm" style="color: var(--color-text-light);">{stat.label}</p>
+            </div>
+          ))}
         </div>
       </div>
       

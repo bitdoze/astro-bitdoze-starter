@@ -9,6 +9,7 @@ export interface CTAConfig {
     text: string;
     href: string;
   };
+  trustedBy?: string;
 }
 
 // This is the shared CTA configuration used across all pages
@@ -38,4 +39,5 @@ export const getCtaSection = () => ({
     text: ctaConfig.secondaryAction.text,
     link: ctaConfig.secondaryAction.href,
   } : undefined,
+  trustedBy: "Trusted by leading companies worldwide",
 });

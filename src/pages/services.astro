@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { Icon } from 'astro-icon/components';
 import { services } from '../config/services';
 import { servicesPageConfig } from '../config/pages';
+import { companyConfig } from '../config/company';
 import CTA from '../components/CTA.astro';
 
 // Extract sections from config
@@ -23,7 +24,7 @@ const ctaSection = servicesPageConfig.sections.find(section => section.type === 
       serviceType: "Professional Services",
       provider: {
         "@type": "Organization",
-        name: "Your Business Name"
+        name: companyConfig.name
       }
     }
   }}
@@ -60,7 +61,7 @@ const ctaSection = servicesPageConfig.sections.find(section => section.type === 
               <h3 class="text-xl font-bold mb-3">{service.title}</h3>
               <p style="color: var(--color-text-light);" class="mb-6 flex-grow">{service.description}</p>
               <a href={service.link} class="font-medium inline-flex items-center" style="color: var(--color-primary);">
-                Learn more
+                {servicesListSection.cta?.text || "Learn more"}
                 <Icon name="mdi:arrow-right" class="ml-1 h-4 w-4" />
               </a>
             </div>
@@ -85,9 +86,9 @@ const ctaSection = servicesPageConfig.sections.find(section => section.type === 
           {processSection.steps.map((step) => (
             <div class="p-6 flex flex-col items-center text-center" style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);">
               <div class="w-12 h-12 rounded-full text-white flex items-center justify-center mb-4 text-xl font-bold" style="background-color: var(--color-primary);">
-                {step.step}
+                {step.number}
               </div>
-              <Icon name={step.icon} class="h-10 w-10 mb-4" style="color: var(--color-primary);" />
+              {step.icon && <Icon name={step.icon} class="h-10 w-10 mb-4" style="color: var(--color-primary);" />}
               <h3 class="text-xl font-bold mb-2">{step.title}</h3>
               <p style="color: var(--color-text-light);">{step.description}</p>
             </div>
@@ -109,7 +110,7 @@ const ctaSection = servicesPageConfig.sections.find(section => section.type === 
         </div>
 
         <div class="max-w-3xl mx-auto divide-y" style="border-color: var(--color-text-lighter);">
-          {faqSection.items.map((item) => (
+          {faqSection.questions.map((item) => (
             <div class="py-6">
               <h3 class="text-lg font-semibold mb-2">{item.question}</h3>
               <p style="color: var(--color-text-light);">{item.answer}</p>
@@ -129,6 +130,7 @@ const ctaSection = servicesPageConfig.sections.find(section => section.type === 
       ctaLink={ctaSection.ctaPrimary.link}
       secondaryText={ctaSection.ctaSecondary?.text}
       secondaryLink={ctaSection.ctaSecondary?.link}
+      trustedBy={ctaSection.trustedBy}
     />
   )}
 </Layout>

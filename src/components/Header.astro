@@ -5,9 +5,16 @@ import { companyConfig } from "../config/company";
 
 interface Props {
   logoText?: string;
+  ctaButton?: {
+    text: string;
+    href: string;
+  };
 }
 
-const { logoText = companyConfig.logo.text } = Astro.props;
+const { 
+  logoText = companyConfig.logo.text,
+  ctaButton = navConfig.ctaButton
+} = Astro.props;
 ---
 
 <header class="sticky top-0 z-40 w-full backdrop-blur">
@@ -35,12 +42,14 @@ const { logoText = companyConfig.logo.text } = Astro.props;
 
     <!-- Primary Action Button -->
     <div class="hidden md:flex items-center space-x-4">
-      <a 
-        href="/contact" 
-        class="btn btn-primary inline-flex h-9 items-center justify-center px-4 py-2 text-sm font-medium text-white shadow"
-      >
-        Get in Touch
-      </a>
+      {ctaButton && (
+        <a 
+          href={ctaButton.href} 
+          class="btn btn-primary inline-flex h-9 items-center justify-center px-4 py-2 text-sm font-medium text-white shadow"
+        >
+          {ctaButton.text}
+        </a>
+      )}
     </div>
 
     <!-- Mobile menu button -->
@@ -67,12 +76,14 @@ const { logoText = companyConfig.logo.text } = Astro.props;
     </div>
     <div class="border-t pt-4 pb-3" style="border-color: var(--color-text-lighter);">
       <div class="flex items-center">
-        <a 
-          href="/contact" 
-          class="btn btn-primary w-full px-4 py-2 text-center text-sm font-medium text-white"
-        >
-          Get in Touch
-        </a>
+        {ctaButton && (
+          <a 
+            href={ctaButton.href} 
+            class="btn btn-primary w-full px-4 py-2 text-center text-sm font-medium text-white"
+          >
+            {ctaButton.text}
+          </a>
+        )}
       </div>
     </div>
   </div>

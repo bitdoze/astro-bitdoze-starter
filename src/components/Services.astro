@@ -7,13 +7,21 @@ interface Props {
   sectionSubtitle?: string;
   showAllServices?: boolean;
   limit?: number;
+  cta?: {
+    text: string;
+    link: string;
+  };
 }
 
 const {
   sectionTitle = "Our Services",
   sectionSubtitle = "We offer comprehensive solutions to help your business thrive in today's competitive market.",
   showAllServices = true,
-  limit = 6
+  limit = 6,
+  cta = {
+    text: "Learn More",
+    link: "/services"
+  }
 } = Astro.props;
 
 // Limit services if necessary
@@ -40,7 +48,7 @@ const displayedServices = showAllServices ? services : services.slice(0, limit);
           {service.link && (
             <div class="mt-4">
               <a href={service.link} class="font-medium inline-flex items-center" style="color: var(--color-primary); transition: all var(--transition-normal);">
-                Learn more
+                {cta.text}
                 <Icon name="mdi:arrow-right" class="ml-1 h-4 w-4" />
               </a>
             </div>
@@ -56,6 +64,19 @@ const displayedServices = showAllServices ? services : services.slice(0, limit);
           class="btn btn-primary inline-flex items-center justify-center h-12 px-6 font-medium"
         >
           View All Services
+        </a>
+      </div>
+    )}
+    
+    {!showAllServices && cta && (
+      <div class="text-center mt-8">
+        <a 
+          href={cta.link} 
+          class="btn btn-secondary inline-flex items-center justify-center h-12 px-6 font-medium"
+          style="border: 1px solid var(--color-text-lighter); border-radius: var(--radius-lg);"
+        >
+          {cta.text}
+          <Icon name="mdi:arrow-right" class="ml-2 h-5 w-5" />
         </a>
       </div>
     )}

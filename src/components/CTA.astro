@@ -10,6 +10,7 @@ interface Props {
   ctaLink?: string;
   secondaryText?: string;
   secondaryLink?: string;
+  trustedBy?: string;
 }
 
 const {
@@ -18,7 +19,8 @@ const {
   ctaText = ctaConfig.primaryAction.text,
   ctaLink = ctaConfig.primaryAction.href,
   secondaryText = ctaConfig.secondaryAction?.text || "Learn More",
-  secondaryLink = ctaConfig.secondaryAction?.href || "/services"
+  secondaryLink = ctaConfig.secondaryAction?.href || "/services",
+  trustedBy = ctaConfig.trustedBy || "Trusted by leading companies worldwide"
 } = Astro.props;
 ---
 
@@ -45,7 +47,7 @@ const {
       
       <!-- Trust badges -->
       <div class="mt-12 flex flex-col items-center">
-        <p class="text-white/70 text-sm mb-4">Trusted by leading companies worldwide</p>
+        <p class="text-white/70 text-sm mb-4">{trustedBy}</p>
         <div class="flex flex-wrap justify-center gap-x-8 gap-y-4">
           {imageAssets.logos.trustedBadges.slice(0, 3).map(badge => (
             <div class="h-8 w-auto brightness-0 invert opacity-50 hover:opacity-100 transition-opacity">

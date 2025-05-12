@@ -1,16 +1,16 @@
 import { siteConfig } from "./site";
 import { companyConfig } from "./company";
-import { imageAssets } from "./assets";
 import { services } from "./services";
-import { getCtaSection, ctaConfig } from "./cta";
+import { imageAssets } from "./assets";
+import { ctaConfig, getCtaSection } from "./cta";
 
-// Page configuration interfaces
+// Page definitions
 export interface PageConfig {
   title: string;
   description: string;
-  ogType?: "website" | "article";
+  ogType?: string;
   ogImage?: string;
-  sections: any[];
+  sections: Section[];
 }
 
 export interface HeroSection {
@@ -26,6 +26,10 @@ export interface HeroSection {
     link: string;
   };
   imageUrl: string;
+  stats?: {
+    value: string;
+    label: string;
+  }[];
 }
 
 export interface WelcomeSection {
@@ -36,7 +40,7 @@ export interface WelcomeSection {
     icon: string;
     title: string;
     description: string;
-    iconColor: string;
+    iconColor?: string;
   }[];
   ctas: {
     primary: {
@@ -47,6 +51,10 @@ export interface WelcomeSection {
       text: string;
       link: string;
     };
+    welcome?: {
+      text: string;
+      link: string;
+    }[];
   };
   image: string;
   badge?: string;
@@ -58,6 +66,10 @@ export interface ServicesSection {
   subtitle: string;
   showAllServices: boolean;
   limit?: number;
+  cta?: {
+    text: string;
+    link: string;
+  };
 }
 
 export interface TestimonialsSection {
@@ -69,7 +81,7 @@ export interface TestimonialsSection {
     author: string;
     role: string;
     company: string;
-    avatar?: string;
+    avatar: string;
   }[];
 }
 
@@ -85,23 +97,23 @@ export interface CTASection {
     text: string;
     link: string;
   };
+  trustedBy?: string;
 }
 
 export interface AboutHeroSection {
   type: "aboutHero";
   title: string;
   subtitle: string;
+  imageUrl: string;
 }
 
 export interface StorySection {
   type: "story";
   title: string;
-  paragraphs: string[];
-  mission: {
-    icon: string;
-    title: string;
-    description: string;
-  };
+  subtitle: string;
+  content: string;
+  image: string;
+  stats?: { value: string; label: string }[];
 }
 
 export interface ValuesSection {
@@ -119,12 +131,12 @@ export interface TeamSection {
   type: "team";
   title: string;
   subtitle: string;
-  members: {
+  team: {
     name: string;
-    position: string;
+    role: string;
     bio: string;
-    image?: string;
-    icon: string;
+    image: string;
+    socialMedia?: { platform: string; url: string; icon: string }[];
   }[];
 }
 
@@ -132,6 +144,11 @@ export interface ServicesListSection {
   type: "servicesList";
   title: string;
   subtitle: string;
+  showAllServices: boolean;
+  cta?: {
+    text: string;
+    link: string;
+  };
 }
 
 export interface ProcessSection {
@@ -139,10 +156,10 @@ export interface ProcessSection {
   title: string;
   subtitle: string;
   steps: {
-    step: string;
+    number: number;
     title: string;
     description: string;
-    icon: string;
+    icon?: string;
   }[];
 }
 
@@ -150,7 +167,7 @@ export interface FAQSection {
   type: "faq";
   title: string;
   subtitle: string;
-  items: {
+  questions: {
     question: string;
     answer: string;
   }[];
@@ -160,17 +177,19 @@ export interface ContactHeroSection {
   type: "contactHero";
   title: string;
   subtitle: string;
+  buttonText?: string;
 }
 
 export interface ContactInfoSection {
   type: "contactInfo";
   title: string;
   subtitle: string;
+  sectionTitle?: string;
   contactInfo: {
     title: string;
     details: string;
     icon: string;
-    link: string;
+    link?: string;
   }[];
 }
 
@@ -183,12 +202,8 @@ export interface ContactFormSection {
     id: string;
     name: string;
     label: string;
-    placeholder?: string;
     required: boolean;
-    options?: {
-      label: string;
-      value: string;
-    }[];
+    options?: { label: string; value: string }[];
   }[];
   submitText: string;
 }
@@ -204,14 +219,31 @@ export interface BusinessHoursSection {
   type: "businessHours";
   title: string;
   subtitle: string;
-  hours: {
-    days: string;
-    hours: string;
-  }[];
-  note: string;
+  hours: { days: string; hours: string }[];
+  note?: string;
 }
 
-// Home Page Configuration
+// Union type of all possible section types
+type Section =
+  | HeroSection
+  | WelcomeSection
+  | ServicesSection
+  | TestimonialsSection
+  | CTASection
+  | AboutHeroSection
+  | StorySection
+  | ValuesSection
+  | TeamSection
+  | ServicesListSection
+  | ProcessSection
+  | FAQSection
+  | ContactHeroSection
+  | ContactInfoSection
+  | ContactFormSection
+  | MapSection
+  | BusinessHoursSection;
+
+// Home page configuration
 export const homePageConfig: PageConfig = {
   title: siteConfig.name,
   description: siteConfig.description,
@@ -220,7 +252,8 @@ export const homePageConfig: PageConfig = {
     {
       type: "hero",
       title: "Elevate Your Business with Professional Solutions",
-      subtitle: "We provide comprehensive business services designed to help your company grow and succeed in today's competitive market.",
+      subtitle:
+        "We provide comprehensive business services designed to help your company grow and succeed in today's competitive market.",
       ctaPrimary: {
         text: "Get Started",
         link: "/contact",
@@ -230,22 +263,39 @@ export const homePageConfig: PageConfig = {
         link: "/services",
       },
       imageUrl: imageAssets.hero.main,
+      stats: [
+        {
+          value: "98%",
+          label: "Customer satisfaction",
+        },
+        {
+          value: "15+",
+          label: "Years experience",
+        },
+        {
+          value: "500+",
+          label: "Clients served",
+        },
+      ],
     },
     {
       type: "welcome",
       title: "Welcome to " + companyConfig.name,
-      subtitle: "We provide professional solutions for your business needs. Our experienced team is dedicated to helping your company grow and succeed in today's competitive market.",
+      subtitle:
+        "We provide professional solutions for your business needs. Our experienced team is dedicated to helping your company grow and succeed in today's competitive market.",
       features: [
         {
           icon: "mdi:shield-check",
           title: "Trusted Service",
-          description: "We pride ourselves on reliability and excellence in every project we undertake.",
+          description:
+            "We pride ourselves on reliability and excellence in every project we undertake.",
           iconColor: "var(--color-primary)",
         },
         {
           icon: "mdi:lightbulb",
           title: "Innovative Solutions",
-          description: "We bring creative thinking and modern approaches to solve your business challenges.",
+          description:
+            "We bring creative thinking and modern approaches to solve your business challenges.",
           iconColor: "var(--color-secondary)",
         },
       ],
@@ -258,6 +308,16 @@ export const homePageConfig: PageConfig = {
           text: "About Us",
           link: "/about",
         },
+        welcome: [
+          {
+            text: "Trusted Service",
+            link: "/services",
+          },
+          {
+            text: "Innovative Solutions",
+            link: "/about",
+          },
+        ],
       },
       image: "/images/welcome-image.jpg",
       badge: "15+ Years Experience",
@@ -265,126 +325,204 @@ export const homePageConfig: PageConfig = {
     {
       type: "services",
       title: "Our Services",
-      subtitle: "We offer comprehensive solutions to help your business thrive in today's competitive market.",
+      subtitle:
+        "We offer comprehensive solutions to help your business thrive in today's competitive market.",
       showAllServices: false,
       limit: 3,
+      cta: {
+        text: "Learn More",
+        link: "/services",
+      },
     },
     {
       type: "testimonials",
       title: "What Our Customers Say",
-      subtitle: "Thousands of companies worldwide trust our platform to scale their businesses.",
+      subtitle:
+        "Thousands of companies worldwide trust our platform to scale their businesses.",
       testimonials: [
         {
-          content: "This platform has completely transformed how we manage our operations. The analytics dashboard alone has saved us countless hours of manual work.",
+          content:
+            "This platform has completely transformed how we manage our operations. The analytics dashboard alone has saved us countless hours of manual work.",
           author: "Sarah Johnson",
           role: "CTO",
           company: "TechSolutions Inc.",
-          avatar: "https://randomuser.me/api/portraits/women/32.jpg"
+          avatar: "https://xsgames.co/randomusers/assets/avatars/female/32.jpg",
         },
         {
-          content: "We've tried several solutions before, but nothing compares to this platform. The automation features have helped us reduce operational costs by 35%.",
+          content:
+            "We've tried several solutions before, but nothing compares to this platform. The automation features have helped us reduce operational costs by 35%.",
           author: "Michael Rodriguez",
           role: "Director of Operations",
           company: "Innovate Labs",
-          avatar: "https://randomuser.me/api/portraits/men/45.jpg"
+          avatar: "https://xsgames.co/randomusers/assets/avatars/male/45.jpg",
         },
         {
-          content: "The customer support is exceptional. Whenever we have questions, the team responds quickly and effectively. It's rare to find this level of service.",
+          content:
+            "The customer support is exceptional. Whenever we have questions, the team responds quickly and effectively. It's rare to find this level of service.",
           author: "Emily Chen",
           role: "Product Manager",
           company: "Growth Ventures",
-          avatar: "https://randomuser.me/api/portraits/women/68.jpg"
-        }
+          avatar: "https://xsgames.co/randomusers/assets/avatars/female/68.jpg",
+        },
       ],
     },
-    getCtaSection(),
+    {
+      ...getCtaSection(),
+      trustedBy: "Trusted by leading companies worldwide",
+    },
   ],
 };
 
-// About Page Configuration
+// About page configuration
 export const aboutPageConfig: PageConfig = {
   title: "About Us",
-  description: "Learn about our company's mission, vision, and the team behind our success.",
+  description:
+    "Learn about our company's mission, values, and the team behind our success.",
   ogType: "website",
   sections: [
     {
       type: "aboutHero",
       title: "About Us",
-      subtitle: companyConfig.description,
+      subtitle:
+        "Learn about our company's mission, values, and the team behind our success.",
+      imageUrl: imageAssets.hero.about,
     },
     {
       type: "story",
       title: "Our Story",
-      paragraphs: [
-        `Founded in 2010, ${companyConfig.name} started with a simple mission: to help businesses thrive in the digital age. What began as a small team of passionate experts has grown into a company trusted by clients worldwide.`,
-        `Our journey has been defined by continuous innovation, strategic growth, and an unwavering commitment to our clients' success. Through economic changes and technological evolution, we've adapted and thrived by staying true to our core values.`,
-        `Today, we're proud to serve diverse clients across industries, providing solutions that drive real business results.`,
+      subtitle: "How it all began",
+      content: `<p>Founded in 2008, ${companyConfig.name} began with a simple mission: to provide businesses with the tools and services they need to succeed in an increasingly digital world.</p>
+
+      <p>What started as a small team of passionate professionals has grown into a full-service agency with expertise across multiple domains. Throughout our growth, we've maintained our commitment to quality, innovation, and client satisfaction.</p>
+
+      <p>Today, we serve clients from various industries worldwide, helping them navigate the complexities of modern business and technology. Our approach combines industry best practices with innovative solutions tailored to each client's unique needs.</p>`,
+      image:
+        "https://images.unsplash.com/photo-1551761429-8232f9f5955c?q=80&w=2070&auto=format&fit=crop",
+      stats: [
+        { value: "15+", label: "Years of experience" },
+        { value: "500+", label: "Clients worldwide" },
+        { value: "150+", label: "Team members" },
       ],
-      mission: {
-        icon: "mdi:domain",
-        title: "Our Mission",
-        description: "To empower businesses with innovative solutions that drive growth, efficiency, and lasting success in an ever-changing digital landscape.",
-      },
     },
     {
       type: "values",
       title: "Our Values",
-      subtitle: "These core principles guide everything we do, from how we develop our products to how we interact with our clients and each other.",
+      subtitle: "The principles that guide everything we do",
       values: [
         {
+          title: "Excellence",
+          description:
+            "We strive for excellence in every project we undertake, ensuring the highest quality of service for our clients.",
+          icon: "mdi:star",
+        },
+        {
           title: "Innovation",
-          description: "We continuously seek new and better ways to solve problems and create value.",
-          icon: "mdi:lightbulb"
+          description:
+            "We embrace innovative thinking and approaches to solve complex problems and drive business growth.",
+          icon: "mdi:lightbulb",
         },
         {
           title: "Integrity",
-          description: "We are committed to honesty, transparency, and ethical business practices.",
-          icon: "mdi:shield-check"
+          description:
+            "We operate with honesty, transparency, and accountability in all our client and team interactions.",
+          icon: "mdi:shield-check",
         },
         {
-          title: "Excellence",
-          description: "We strive for the highest standards in everything we do.",
-          icon: "mdi:star"
+          title: "Collaboration",
+          description:
+            "We believe in the power of collaboration, working closely with clients and team members to achieve shared goals.",
+          icon: "mdi:account-group",
         },
         {
-          title: "Customer Focus",
-          description: "Our clients' success is our success. We're dedicated to delivering exceptional value.",
-          icon: "mdi:account-group"
+          title: "Client-Focus",
+          description:
+            "We prioritize our clients' needs and goals, tailoring our solutions to deliver meaningful results.",
+          icon: "mdi:handshake",
+        },
+        {
+          title: "Continuous Learning",
+          description:
+            "We are committed to continuous learning and improvement, staying at the forefront of industry trends and best practices.",
+          icon: "mdi:book-open-page-variant",
         },
       ],
     },
     {
       type: "team",
-      title: "Meet Our Team",
-      subtitle: "Our talented team brings diverse skills and perspectives to deliver exceptional results for our clients.",
-      members: [
-        {
-          name: "Jane Doe",
-          position: "CEO & Founder",
-          bio: "With over 15 years of industry experience, Jane leads our company's vision and strategy.",
-          image: "/images/team/jane-doe.jpg",
-          icon: "mdi:account"
-        },
+      title: "Our Leadership Team",
+      subtitle: "Meet the experts behind our success",
+      team: [
         {
           name: "John Smith",
-          position: "CTO",
-          bio: "John brings technical leadership and innovation to our product development.",
-          image: "/images/team/john-smith.jpg",
-          icon: "mdi:account"
+          role: "CEO & Founder",
+          bio: "John brings over 20 years of experience in business strategy and technology leadership. His vision and expertise have been instrumental in our company's growth and success.",
+          image: "https://xsgames.co/randomusers/assets/avatars/male/1.jpg",
+          socialMedia: [
+            {
+              platform: "LinkedIn",
+              url: "https://linkedin.com/",
+              icon: "mdi:linkedin",
+            },
+            {
+              platform: "Twitter",
+              url: "https://twitter.com/",
+              icon: "mdi:twitter",
+            },
+          ],
         },
         {
-          name: "Emily Chen",
-          position: "Head of Marketing",
-          bio: "Emily leads our marketing efforts with creative strategies that drive growth.",
-          image: "/images/team/emily-chen.jpg",
-          icon: "mdi:account"
+          name: "Sarah Johnson",
+          role: "Chief Operating Officer",
+          bio: "Sarah oversees our day-to-day operations, ensuring that we deliver exceptional service to our clients while maintaining operational efficiency.",
+          image: "https://xsgames.co/randomusers/assets/avatars/female/1.jpg",
+          socialMedia: [
+            {
+              platform: "LinkedIn",
+              url: "https://linkedin.com/",
+              icon: "mdi:linkedin",
+            },
+            {
+              platform: "Twitter",
+              url: "https://twitter.com/",
+              icon: "mdi:twitter",
+            },
+          ],
         },
         {
-          name: "Michael Brown",
-          position: "Customer Success",
-          bio: "Michael ensures our clients receive exceptional service and achieve their goals.",
-          image: "/images/team/michael-brown.jpg",
-          icon: "mdi:account"
+          name: "Michael Chen",
+          role: "Chief Technology Officer",
+          bio: "Michael leads our technology initiatives, keeping us at the forefront of innovation and ensuring that we leverage the latest technologies to serve our clients.",
+          image: "https://xsgames.co/randomusers/assets/avatars/male/2.jpg",
+          socialMedia: [
+            {
+              platform: "LinkedIn",
+              url: "https://linkedin.com/",
+              icon: "mdi:linkedin",
+            },
+            {
+              platform: "GitHub",
+              url: "https://github.com/",
+              icon: "mdi:github",
+            },
+          ],
+        },
+        {
+          name: "Emily Rodriguez",
+          role: "Chief Marketing Officer",
+          bio: "Emily spearheads our marketing strategies, helping clients elevate their brand presence and achieve their marketing objectives.",
+          image: "https://xsgames.co/randomusers/assets/avatars/female/2.jpg",
+          socialMedia: [
+            {
+              platform: "LinkedIn",
+              url: "https://linkedin.com/",
+              icon: "mdi:linkedin",
+            },
+            {
+              platform: "Twitter",
+              url: "https://twitter.com/",
+              icon: "mdi:twitter",
+            },
+          ],
         },
       ],
     },
@@ -392,107 +530,133 @@ export const aboutPageConfig: PageConfig = {
   ],
 };
 
-// Services Page Configuration
+// Services page configuration
 export const servicesPageConfig: PageConfig = {
   title: "Our Services",
-  description: "Explore our comprehensive range of services designed to help your business succeed.",
+  description:
+    "Explore our comprehensive range of professional services designed to help your business grow and succeed.",
   ogType: "website",
   sections: [
     {
       type: "aboutHero",
       title: "Our Services",
-      subtitle: "Explore our comprehensive range of services designed to help your business succeed.",
+      subtitle: "Comprehensive solutions tailored to your business needs",
+      imageUrl: imageAssets.hero.services,
     },
     {
       type: "servicesList",
       title: "What We Offer",
-      subtitle: "Our comprehensive suite of services is designed to help businesses of all sizes achieve their goals and overcome challenges.",
+      subtitle:
+        "Explore our range of professional services designed to help your business grow and succeed.",
+      showAllServices: true,
+      cta: {
+        text: "Learn More",
+        link: "/services"
+      },
     },
     {
       type: "process",
       title: "Our Process",
-      subtitle: "We follow a structured approach to ensure consistent, high-quality results for every client project.",
+      subtitle: "How we deliver exceptional results for your business",
       steps: [
         {
-          step: "1",
+          number: 1,
           title: "Discovery",
-          description: "We start by understanding your business needs, goals, and challenges through in-depth consultation.",
-          icon: "mdi:magnify"
+          description:
+            "We begin by understanding your business, goals, challenges, and requirements through in-depth consultations.",
+          icon: "mdi:magnify",
         },
         {
-          step: "2",
+          number: 2,
           title: "Strategy",
-          description: "We develop a customized strategy and plan of action tailored to your specific requirements.",
-          icon: "mdi:strategy"
+          description:
+            "Based on our findings, we develop a comprehensive strategy tailored to your specific needs and objectives.",
+          icon: "mdi:lightbulb",
         },
         {
-          step: "3",
+          number: 3,
           title: "Implementation",
-          description: "Our expert team executes the strategy with precision, keeping you informed throughout the process.",
-          icon: "mdi:rocket-launch"
+          description:
+            "Our expert team implements the strategy, applying industry best practices and innovative approaches.",
+          icon: "mdi:cog",
         },
         {
-          step: "4",
+          number: 4,
           title: "Optimization",
-          description: "We continuously monitor, analyze, and refine our approach to ensure optimal results.",
-          icon: "mdi:chart-line"
-        }
+          description:
+            "We continuously monitor performance and make necessary adjustments to optimize results and ensure success.",
+          icon: "mdi:chart-line",
+        },
       ],
     },
     {
       type: "faq",
       title: "Frequently Asked Questions",
-      subtitle: "Get answers to common questions about our services and how we work with clients.",
-      items: [
+      subtitle: "Find answers to common questions about our services",
+      questions: [
         {
-          question: "How do you tailor your services to meet my specific business needs?",
-          answer: "We begin with a thorough discovery process to understand your unique business challenges and goals. Based on this assessment, we create a customized service package designed specifically for your situation, ensuring that our solutions align perfectly with your objectives."
+          question: "What industries do you serve?",
+          answer:
+            "We work with clients across various industries, including technology, healthcare, finance, retail, education, and manufacturing. Our diverse expertise allows us to understand different industry dynamics and deliver tailored solutions.",
         },
         {
-          question: "What is your typical timeframe for delivering results?",
-          answer: "While each project is unique, we typically begin showing initial results within 30-60 days. More substantial outcomes develop over 3-6 months as our strategies gain momentum. We provide regular progress reports and maintain transparent communication throughout the process."
+          question: "How long does a typical project take?",
+          answer:
+            "Project timelines vary depending on scope, complexity, and specific requirements. During our initial consultation, we'll provide a realistic timeline based on your project needs. We're committed to meeting deadlines while ensuring quality results.",
         },
         {
-          question: "Do you offer ongoing support after the initial project is complete?",
-          answer: "Absolutely! We offer various support packages to ensure the continued success of your project. These include regular maintenance, performance monitoring, strategic adjustments, and access to our support team for any questions or assistance you might need."
+          question: "Do you offer ongoing support after project completion?",
+          answer:
+            "Yes, we offer various support and maintenance options to ensure your continued success. We can discuss these options during the project planning phase to find the best fit for your needs and budget.",
         },
         {
-          question: "How do you measure the success of your services?",
-          answer: "We establish clear, measurable KPIs at the beginning of each project, tailored to your specific goals. Throughout our engagement, we provide detailed analytics and reporting that track these metrics, allowing both teams to objectively assess performance and ROI."
-        }
+          question: "How do you handle confidential information?",
+          answer:
+            "We take data security and confidentiality seriously. We adhere to strict protocols and industry best practices to protect your information. All client data is handled with the utmost care, and we're happy to sign NDAs before starting any work.",
+        },
+        {
+          question: "What makes your services different from others?",
+          answer:
+            "Our approach combines industry expertise, innovative thinking, and a client-centric focus. We don't just provide generic solutions—we work closely with you to understand your unique challenges and develop customized strategies that align with your specific goals and vision.",
+        },
       ],
     },
     getCtaSection(),
   ],
 };
 
-// Contact Page Configuration
+// Contact page configuration
 export const contactPageConfig: PageConfig = {
   title: "Contact Us",
-  description: "Get in touch with our team for inquiries, support, or to discuss how we can help your business.",
+  description:
+    "Get in touch with our team for inquiries, support, or to discuss how we can help your business.",
   ogType: "website",
   sections: [
     {
       type: "contactHero",
       title: "Contact Us",
-      subtitle: "Get in touch with our team for inquiries, support, or to discuss how we can help your business.",
+      subtitle:
+        "Get in touch with our team for inquiries, support, or to discuss how we can help your business.",
+      buttonText: "Get in Touch",
     },
     {
       type: "contactInfo",
       title: "Get in Touch",
-      subtitle: "Have questions or ready to get started? Reach out to us using any of the methods below, and we'll get back to you as soon as possible.",
+      subtitle:
+        "Have questions or ready to get started? Reach out to us using any of the methods below, and we'll get back to you as soon as possible.",
+      sectionTitle: "Connect With Us",
       contactInfo: [
         {
           title: "Email Us",
           details: companyConfig.contact.email,
           icon: "mdi:email",
-          link: `mailto:${companyConfig.contact.email}`
+          link: `mailto:${companyConfig.contact.email}`,
         },
         {
           title: "Call Us",
           details: companyConfig.contact.phone,
           icon: "mdi:phone",
-          link: `tel:${companyConfig.contact.phone.replace(/\s+/g, '')}`
+          link: `tel:${companyConfig.contact.phone.replace(/\s+/g, "")}`,
         },
         {
           title: "Visit Us",
@@ -500,14 +664,15 @@ export const contactPageConfig: PageConfig = {
           icon: "mdi:map-marker",
           link: `https://maps.google.com/?q=${encodeURIComponent(
             `${companyConfig.contact.address.street}, ${companyConfig.contact.address.city}, ${companyConfig.contact.address.state} ${companyConfig.contact.address.zip}`
-          )}`
-        }
+          )}`,
+        },
       ],
     },
     {
       type: "contactForm",
       title: "Send Us a Message",
-      subtitle: "Fill out the form below and we'll get back to you as soon as possible.",
+      subtitle:
+        "Fill out the form below and we'll get back to you as soon as possible.",
       fields: [
         {
           type: "text",
@@ -562,7 +727,8 @@ export const contactPageConfig: PageConfig = {
           type: "checkbox",
           id: "consent",
           name: "consent",
-          label: "I consent to having this website store my submitted information so they can respond to my inquiry.",
+          label:
+            "I consent to having this website store my submitted information so they can respond to my inquiry.",
           required: true,
         },
       ],
@@ -577,7 +743,8 @@ export const contactPageConfig: PageConfig = {
     {
       type: "businessHours",
       title: "Business Hours",
-      subtitle: "Our team is available during the following hours to assist you.",
+      subtitle:
+        "Our team is available during the following hours to assist you.",
       hours: [
         {
           days: "Monday - Friday",
@@ -594,6 +761,9 @@ export const contactPageConfig: PageConfig = {
       ],
       note: "Need assistance outside of business hours? Send us an email, and we'll get back to you as soon as possible.",
     },
-    getCtaSection(),
+    {
+      ...getCtaSection(),
+      trustedBy: "Trusted by leading companies worldwide",
+    },
   ],
 };
