@@ -1,5 +1,6 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { Icon } from "astro-icon/components";
+// import { Image } from "astro:assets"; // Potentially remove if not used elsewhere
 import { services } from "../config/services";
 
 interface Props {
@@ -20,66 +21,112 @@ const {
   limit = 6,
   cta = {
     text: "Learn More",
-    link: "/services"
-  }
+    link: "/services",
+  },
 } = Astro.props;
 
 // Limit services if necessary
 const displayedServices = showAllServices ? services : services.slice(0, limit);
 ---
 
-<section class="section-padding" style="background-color: var(--color-background);">
+<section
+  class="section-padding"
+  style="background-color: var(--color-background);"
+>
   <div class="container">
     <!-- Section header -->
-    <div class="text-center mb-20 feature-header">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--color-text);">{sectionTitle}</h2>
-      <p class="max-w-2xl mx-auto text-lg" style="color: var(--color-text-light);">{sectionSubtitle}</p>
-    </div>
-    
-    <!-- Services grid -->
-    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-      {displayedServices.map((service, index) => (
-        <div class="service-card p-8 transition-all duration-300" style="border-radius: var(--radius-xl); background-color: var(--color-background); border: 1px solid var(--color-text-lighter); box-shadow: var(--shadow-sm);" data-index={index}>
-          <div class="icon-container mb-5 inline-flex items-center justify-center w-12 h-12 rounded-lg" style="background-color: rgba(79, 70, 229, 0.1); color: var(--color-primary);">
-            <Icon name={service.icon} class="h-6 w-6" />
-          </div>
-          <h3 class="text-xl font-semibold mb-3" style="color: var(--color-text);">{service.title}</h3>
-          <p style="color: var(--color-text-light);">{service.description}</p>
-          {service.link && (
-            <div class="mt-4">
-              <a href={service.link} class="font-medium inline-flex items-center" style="color: var(--color-primary); transition: all var(--transition-normal);">
-                {cta.text}
-                <Icon name="mdi:arrow-right" class="ml-1 h-4 w-4" />
-              </a>
-            </div>
-          )}
-        </div>
-      ))}
+    <div class="feature-header mb-20 text-center">
+      <h2
+        class="mb-4 text-3xl font-bold md:text-4xl"
+        style="color: var(--color-text);"
+      >
+        {sectionTitle}
+      </h2>
+      <p
+        class="mx-auto max-w-2xl text-lg"
+        style="color: var(--color-text-light);"
+      >
+        {sectionSubtitle}
+      </p>
     </div>
 
-    {!showAllServices && services.length > limit && (
-      <div class="text-center mt-12">
-        <a 
-          href="/services" 
-          class="btn btn-primary inline-flex items-center justify-center h-12 px-6 font-medium"
-        >
-          View All Services
-        </a>
-      </div>
-    )}
-    
-    {!showAllServices && cta && (
-      <div class="text-center mt-8">
-        <a 
-          href={cta.link} 
-          class="btn btn-secondary inline-flex items-center justify-center h-12 px-6 font-medium"
-          style="border: 1px solid var(--color-text-lighter); border-radius: var(--radius-lg);"
-        >
-          {cta.text}
-          <Icon name="mdi:arrow-right" class="ml-2 h-5 w-5" />
-        </a>
-      </div>
-    )}
+    <!-- Services grid -->
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {
+        displayedServices.map((service, index) => (
+          <div
+            class="service-card p-8 transition-all duration-300 flex flex-col items-center text-center" // Added flex for centering
+            style="border-radius: var(--radius-xl); background-color: var(--color-background); border: 1px solid var(--color-text-lighter); box-shadow: var(--shadow-sm);"
+            data-index={index}
+          >
+            {service.image && service.image.src && ( // Check if src exists
+              <div class="mb-4">
+                <img 
+                  src={service.image.src} 
+                  alt={service.image.alt || service.title} 
+                  width="80" 
+                  height="80"
+                  class="rounded-lg object-cover" 
+                />
+              </div>
+            )}
+            <div
+              class="icon-container mb-5 inline-flex h-12 w-12 items-center justify-center rounded-lg"
+              style="background-color: rgb(79 70 229 / 10%); color: var(--color-primary);"
+            >
+              <Icon name={service.icon} class="h-6 w-6" />
+            </div>
+            <h3
+              class="mb-3 text-xl font-semibold"
+              style="color: var(--color-text);"
+            >
+              {service.title}
+            </h3>
+            <p style="color: var(--color-text-light);">{service.description}</p>
+            {service.link && (
+              <div class="mt-4">
+                <a
+                  href={service.link}
+                  class="inline-flex items-center font-medium"
+                  style="color: var(--color-primary); transition: all var(--transition-normal);"
+                >
+                  {cta.text}
+                  <Icon name="mdi:arrow-right" class="ml-1 h-4 w-4" />
+                </a>
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </div>
+
+    {
+      !showAllServices && services.length > limit && (
+        <div class="mt-12 text-center">
+          <a
+            href="/services"
+            class="btn btn-primary inline-flex h-12 items-center justify-center px-6 font-medium"
+          >
+            View All Services
+          </a>
+        </div>
+      )
+    }
+
+    {
+      !showAllServices && cta && (
+        <div class="mt-8 text-center">
+          <a
+            href={cta.link}
+            class="btn btn-secondary inline-flex h-12 items-center justify-center px-6 font-medium"
+            style="border: 1px solid var(--color-text-lighter); border-radius: var(--radius-lg);"
+          >
+            {cta.text}
+            <Icon name="mdi:arrow-right" class="ml-2 h-5 w-5" />
+          </a>
+        </div>
+      )
+    }
   </div>
 </section>
 
@@ -90,7 +137,7 @@ const displayedServices = showAllServices ? services : services.slice(0, limit);
     animation: fadeInUp 0.8s ease-out forwards;
     animation-play-state: paused;
   }
-  
+
   /* Animation for service cards */
   .service-card {
     opacity: 0;
@@ -98,31 +145,49 @@ const displayedServices = showAllServices ? services : services.slice(0, limit);
     animation: fadeInUp 0.5s ease-out forwards;
     animation-play-state: paused;
   }
-  
+
   /* Stagger the animations based on index */
-  .service-card[data-index="0"] { animation-delay: 0.1s; }
-  .service-card[data-index="1"] { animation-delay: 0.2s; }
-  .service-card[data-index="2"] { animation-delay: 0.3s; }
-  .service-card[data-index="3"] { animation-delay: 0.4s; }
-  .service-card[data-index="4"] { animation-delay: 0.5s; }
-  .service-card[data-index="5"] { animation-delay: 0.6s; }
-  
+  .service-card[data-index="0"] {
+    animation-delay: 0.1s;
+  }
+
+  .service-card[data-index="1"] {
+    animation-delay: 0.2s;
+  }
+
+  .service-card[data-index="2"] {
+    animation-delay: 0.3s;
+  }
+
+  .service-card[data-index="3"] {
+    animation-delay: 0.4s;
+  }
+
+  .service-card[data-index="4"] {
+    animation-delay: 0.5s;
+  }
+
+  .service-card[data-index="5"] {
+    animation-delay: 0.6s;
+  }
+
   @keyframes fadeInUp {
     from {
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  
+
   /* Icon hover animation */
   .icon-container {
     transition: transform 0.3s ease;
   }
-  
+
   .service-card:hover .icon-container {
     transform: scale(1.1);
   }
@@ -130,22 +195,27 @@ const displayedServices = showAllServices ? services : services.slice(0, limit);
 
 <script>
   // Intersection Observer to trigger animations when elements enter viewport
-  document.addEventListener('DOMContentLoaded', () => {
-    const animatedElements = document.querySelectorAll('.feature-header, .service-card');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          (entry.target as HTMLElement).style.animationPlayState = 'running';
-          // Unobserve after triggering animation
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1
-    });
-    
-    animatedElements.forEach(element => {
+  document.addEventListener("DOMContentLoaded", () => {
+    const animatedElements = document.querySelectorAll(
+      ".feature-header, .service-card",
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).style.animationPlayState = "running";
+            // Unobserve after triggering animation
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+      },
+    );
+
+    animatedElements.forEach((element) => {
       observer.observe(element);
     });
   });

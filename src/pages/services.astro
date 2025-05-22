@@ -1,136 +1,212 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { Icon } from 'astro-icon/components';
-import { services } from '../config/services';
-import { servicesPageConfig } from '../config/pages';
-import { companyConfig } from '../config/company';
-import CTA from '../components/CTA.astro';
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { services } from "../config/services";
+import { servicesPageConfig } from "../config/pages";
+import { companyConfig } from "../config/company";
+import CTA from "../components/CTA.astro";
 
 // Extract sections from config
-const heroSection = servicesPageConfig.sections.find(section => section.type === "aboutHero");
-const servicesListSection = servicesPageConfig.sections.find(section => section.type === "servicesList");
-const processSection = servicesPageConfig.sections.find(section => section.type === "process");
-const faqSection = servicesPageConfig.sections.find(section => section.type === "faq");
-const ctaSection = servicesPageConfig.sections.find(section => section.type === "cta");
+const heroSection = servicesPageConfig.sections.find(
+  (section) => section.type === "aboutHero",
+);
+const servicesListSection = servicesPageConfig.sections.find(
+  (section) => section.type === "servicesList",
+);
+const processSection = servicesPageConfig.sections.find(
+  (section) => section.type === "process",
+);
+const faqSection = servicesPageConfig.sections.find(
+  (section) => section.type === "faq",
+);
+const ctaSection = servicesPageConfig.sections.find(
+  (section) => section.type === "cta",
+);
 ---
 
-<Layout 
+<Layout
   title={servicesPageConfig.title}
   description={servicesPageConfig.description}
   ogType={servicesPageConfig.ogType}
   structuredData={{
-    type: 'service',
+    type: "service",
     data: {
       serviceType: "Professional Services",
       provider: {
         "@type": "Organization",
-        name: companyConfig.name
-      }
-    }
+        name: companyConfig.name,
+      },
+    },
   }}
 >
   <!-- Hero Section -->
-  {heroSection && (
-    <section class="section-padding" style="background: linear-gradient(to bottom, rgba(79, 70, 229, 0.1), white);">
-      <div class="container text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-6">{heroSection.title}</h1>
-        <p class="text-xl max-w-3xl mx-auto" style="color: var(--color-text-light);">
-          {heroSection.subtitle}
-        </p>
-      </div>
-    </section>
-  )}
+  {
+    heroSection && (
+      <section
+        class="section-padding"
+        style="background: linear-gradient(to bottom, rgb(79 70 229 / 10%), white);"
+      >
+        <div class="container text-center">
+          <h1 class="mb-6 text-4xl font-bold md:text-5xl">
+            {heroSection.title}
+          </h1>
+          <p
+            class="mx-auto max-w-3xl text-xl"
+            style="color: var(--color-text-light);"
+          >
+            {heroSection.subtitle}
+          </p>
+        </div>
+      </section>
+    )
+  }
 
   <!-- Services -->
-  {servicesListSection && (
-    <section class="section-padding">
-      <div class="container">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl font-bold mb-4">{servicesListSection.title}</h2>
-          <p style="color: var(--color-text-light);" class="max-w-2xl mx-auto">
-            {servicesListSection.subtitle}
-          </p>
-        </div>
+  {
+    servicesListSection && (
+      <section class="section-padding">
+        <div class="container">
+          <div class="mb-16 text-center">
+            <h2 class="mb-4 text-3xl font-bold">{servicesListSection.title}</h2>
+            <p
+              style="color: var(--color-text-light);"
+              class="mx-auto max-w-2xl"
+            >
+              {servicesListSection.subtitle}
+            </p>
+          </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service) => (
-            <div class="p-8 flex flex-col" style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);">
-              <div class="rounded-full w-14 h-14 flex items-center justify-center mb-6" style="background-color: rgba(79, 70, 229, 0.1);">
-                <Icon name={service.icon} class="h-7 w-7" style="color: var(--color-primary);" />
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {services.map((service) => (
+              <div
+                class="flex flex-col p-8"
+                style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);"
+              >
+                <div
+                  class="mb-6 flex h-14 w-14 items-center justify-center rounded-full"
+                  style="background-color: rgb(79 70 229 / 10%);"
+                >
+                  <Icon
+                    name={service.icon}
+                    class="h-7 w-7"
+                    style="color: var(--color-primary);"
+                  />
+                </div>
+                <h3 class="mb-3 text-xl font-bold">{service.title}</h3>
+                <p
+                  style="color: var(--color-text-light);"
+                  class="mb-6 flex-grow"
+                >
+                  {service.description}
+                </p>
+                <a
+                  href={service.link}
+                  class="inline-flex items-center font-medium"
+                  style="color: var(--color-primary);"
+                >
+                  {servicesListSection.cta?.text || "Learn more"}
+                  <Icon name="mdi:arrow-right" class="ml-1 h-4 w-4" />
+                </a>
               </div>
-              <h3 class="text-xl font-bold mb-3">{service.title}</h3>
-              <p style="color: var(--color-text-light);" class="mb-6 flex-grow">{service.description}</p>
-              <a href={service.link} class="font-medium inline-flex items-center" style="color: var(--color-primary);">
-                {servicesListSection.cta?.text || "Learn more"}
-                <Icon name="mdi:arrow-right" class="ml-1 h-4 w-4" />
-              </a>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  )}
+      </section>
+    )
+  }
 
   <!-- Our Process -->
-  {processSection && (
-    <section class="section-padding" style="background-color: var(--color-background-alt);">
-      <div class="container">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl font-bold mb-4">{processSection.title}</h2>
-          <p style="color: var(--color-text-light);" class="max-w-2xl mx-auto">
-            {processSection.subtitle}
-          </p>
-        </div>
+  {
+    processSection && (
+      <section
+        class="section-padding"
+        style="background-color: var(--color-background-alt);"
+      >
+        <div class="container">
+          <div class="mb-16 text-center">
+            <h2 class="mb-4 text-3xl font-bold">{processSection.title}</h2>
+            <p
+              style="color: var(--color-text-light);"
+              class="mx-auto max-w-2xl"
+            >
+              {processSection.subtitle}
+            </p>
+          </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {processSection.steps.map((step) => (
-            <div class="p-6 flex flex-col items-center text-center" style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);">
-              <div class="w-12 h-12 rounded-full text-white flex items-center justify-center mb-4 text-xl font-bold" style="background-color: var(--color-primary);">
-                {step.number}
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {processSection.steps.map((step) => (
+              <div
+                class="flex flex-col items-center p-6 text-center"
+                style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);"
+              >
+                <div
+                  class="mb-4 flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold text-white"
+                  style="background-color: var(--color-primary);"
+                >
+                  {step.number}
+                </div>
+                {step.icon && (
+                  <Icon
+                    name={step.icon}
+                    class="mb-4 h-10 w-10"
+                    style="color: var(--color-primary);"
+                  />
+                )}
+                <h3 class="mb-2 text-xl font-bold">{step.title}</h3>
+                <p style="color: var(--color-text-light);">
+                  {step.description}
+                </p>
               </div>
-              {step.icon && <Icon name={step.icon} class="h-10 w-10 mb-4" style="color: var(--color-primary);" />}
-              <h3 class="text-xl font-bold mb-2">{step.title}</h3>
-              <p style="color: var(--color-text-light);">{step.description}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  )}
+      </section>
+    )
+  }
 
   <!-- FAQ Section -->
-  {faqSection && (
-    <section class="section-padding">
-      <div class="container">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl font-bold mb-4">{faqSection.title}</h2>
-          <p style="color: var(--color-text-light);" class="max-w-2xl mx-auto">
-            {faqSection.subtitle}
-          </p>
-        </div>
+  {
+    faqSection && (
+      <section class="section-padding">
+        <div class="container">
+          <div class="mb-16 text-center">
+            <h2 class="mb-4 text-3xl font-bold">{faqSection.title}</h2>
+            <p
+              style="color: var(--color-text-light);"
+              class="mx-auto max-w-2xl"
+            >
+              {faqSection.subtitle}
+            </p>
+          </div>
 
-        <div class="max-w-3xl mx-auto divide-y" style="border-color: var(--color-text-lighter);">
-          {faqSection.questions.map((item) => (
-            <div class="py-6">
-              <h3 class="text-lg font-semibold mb-2">{item.question}</h3>
-              <p style="color: var(--color-text-light);">{item.answer}</p>
-            </div>
-          ))}
+          <div
+            class="mx-auto max-w-3xl divide-y"
+            style="border-color: var(--color-text-lighter);"
+          >
+            {faqSection.questions.map((item) => (
+              <div class="py-6">
+                <h3 class="mb-2 text-lg font-semibold">{item.question}</h3>
+                <p style="color: var(--color-text-light);">{item.answer}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  )}
+      </section>
+    )
+  }
 
   <!-- CTA Section -->
-  {ctaSection && (
-    <CTA 
-      title={ctaSection.title}
-      subtitle={ctaSection.subtitle}
-      ctaText={ctaSection.ctaPrimary.text}
-      ctaLink={ctaSection.ctaPrimary.link}
-      secondaryText={ctaSection.ctaSecondary?.text}
-      secondaryLink={ctaSection.ctaSecondary?.link}
-      trustedBy={ctaSection.trustedBy}
-    />
-  )}
+  {
+    ctaSection && (
+      <CTA
+        title={ctaSection.title}
+        subtitle={ctaSection.subtitle}
+        ctaText={ctaSection.ctaPrimary.text}
+        ctaLink={ctaSection.ctaPrimary.link}
+        secondaryText={ctaSection.ctaSecondary?.text}
+        secondaryLink={ctaSection.ctaSecondary?.link}
+        trustedBy={ctaSection.trustedBy}
+      />
+    )
+  }
 </Layout>

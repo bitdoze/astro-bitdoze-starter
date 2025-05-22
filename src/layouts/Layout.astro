@@ -17,8 +17,14 @@ interface Props {
   noindex?: boolean;
   nofollow?: boolean;
   structuredData?: {
-    type: 'website' | 'organization' | 'localBusiness' | 'article' | 'faq' | 'service';
-    data: Record<string, any>;
+    type:
+      | "website"
+      | "organization"
+      | "localBusiness"
+      | "article"
+      | "faq"
+      | "service";
+    data: Record<string, unknown>;
   };
 }
 
@@ -32,42 +38,42 @@ const {
   noindex = false,
   nofollow = false,
   structuredData = {
-    type: 'organization',
-    data: { name: companyConfig.name }
-  }
+    type: "organization",
+    data: { name: companyConfig.name },
+  },
 } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        
-        <!-- SEO Meta Tags -->
-        <MetaTags 
-          title={title}
-          description={description}
-          canonical={canonical}
-          image={image}
-          ogType={ogType}
-          twitterCard={twitterCard}
-          noindex={noindex}
-          nofollow={nofollow}
-        />
-        
-        <!-- Structured Data -->
-        <StructuredData type={structuredData.type} data={structuredData.data} />
-    </head>
-    <body>
-        <Header />
-        <main>
-            <slot />
-        </main>
-        <Footer />
-        <script src="../scripts/animations.js"></script>
-    </body>
-    </html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
 
-    <!-- styles are now in global.css -->
+    <!-- SEO Meta Tags -->
+    <MetaTags
+      title={title}
+      description={description}
+      canonical={canonical}
+      image={image}
+      ogType={ogType}
+      twitterCard={twitterCard}
+      noindex={noindex}
+      nofollow={nofollow}
+    />
+
+    <!-- Structured Data -->
+    <StructuredData type={structuredData.type} data={structuredData.data} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <script src="../scripts/animations.js" defer></script>
+  </body>
+</html>
+
+<!-- styles are now in global.css -->

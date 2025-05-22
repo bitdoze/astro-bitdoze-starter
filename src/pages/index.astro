@@ -9,11 +9,21 @@ import CTA from "../components/CTA.astro";
 import { homePageConfig } from "../config/pages";
 
 // Extract sections from config
-const heroSection = homePageConfig.sections.find(section => section.type === "hero");
-const welcomeSection = homePageConfig.sections.find(section => section.type === "welcome");
-const servicesSection = homePageConfig.sections.find(section => section.type === "services");
-const testimonialsSection = homePageConfig.sections.find(section => section.type === "testimonials");
-const ctaSection = homePageConfig.sections.find(section => section.type === "cta");
+const heroSection = homePageConfig.sections.find(
+  (section) => section.type === "hero",
+);
+const welcomeSection = homePageConfig.sections.find(
+  (section) => section.type === "welcome",
+);
+const servicesSection = homePageConfig.sections.find(
+  (section) => section.type === "services",
+);
+const testimonialsSection = homePageConfig.sections.find(
+  (section) => section.type === "testimonials",
+);
+const ctaSection = homePageConfig.sections.find(
+  (section) => section.type === "cta",
+);
 ---
 
 <Layout
@@ -21,58 +31,68 @@ const ctaSection = homePageConfig.sections.find(section => section.type === "cta
   description={homePageConfig.description}
   ogImage={homePageConfig.ogImage}
 >
-  {heroSection && (
-    <Hero 
-      title={heroSection.title}
-      subtitle={heroSection.subtitle}
-      ctaPrimary={heroSection.ctaPrimary.text}
-      ctaSecondary={heroSection.ctaSecondary?.text}
-      ctaPrimaryLink={heroSection.ctaPrimary.link}
-      ctaSecondaryLink={heroSection.ctaSecondary?.link}
-      imageUrl={heroSection.imageUrl}
-      stats={heroSection.stats}
-    />
-  )}
-  
-  {welcomeSection && (
-    <Welcome 
-      title={welcomeSection.title}
-      subtitle={welcomeSection.subtitle}
-      features={welcomeSection.features}
-      ctas={welcomeSection.ctas}
-      image={welcomeSection.image}
-      badge={welcomeSection.badge}
-      welcomeButtons={welcomeSection.ctas.welcome}
-    />
-  )}
-  
-  {servicesSection && (
-    <Services 
-      sectionTitle={servicesSection.title}
-      sectionSubtitle={servicesSection.subtitle}
-      showAllServices={servicesSection.showAllServices}
-      limit={servicesSection.limit}
-      cta={servicesSection.cta}
-    />
-  )}
-  
-  {testimonialsSection && (
-    <Testimonials 
-      title={testimonialsSection.title}
-      subtitle={testimonialsSection.subtitle}
-      testimonials={testimonialsSection.testimonials}
-    />
-  )}
-  
-  {ctaSection && (
-    <CTA 
-      title={ctaSection.title}
-      subtitle={ctaSection.subtitle}
-      ctaText={ctaSection.ctaPrimary.text}
-      ctaLink={ctaSection.ctaPrimary.link}
-      secondaryText={ctaSection.ctaSecondary?.text}
-      secondaryLink={ctaSection.ctaSecondary?.link}
-      trustedBy={ctaSection.trustedBy}
-    />
-  )}
+  {
+    heroSection && (
+      <Hero
+        title={heroSection.title}
+        subtitle={heroSection.subtitle}
+        ctaPrimary={heroSection.ctaPrimary.text}
+        ctaSecondary={heroSection.ctaSecondary?.text}
+        ctaPrimaryLink={heroSection.ctaPrimary.link}
+        ctaSecondaryLink={heroSection.ctaSecondary?.link}
+        imageUrl={heroSection.imageUrl}
+        stats={heroSection.stats}
+      />
+    )
+  }
+
+  {
+    welcomeSection && (
+      <Welcome
+        title={welcomeSection.title}
+        subtitle={welcomeSection.subtitle}
+        features={welcomeSection.features}
+        ctas={welcomeSection.ctas}
+        image={welcomeSection.image}
+        badge={welcomeSection.badge}
+        welcomeButtons={welcomeSection.ctas.welcome}
+      />
+    )
+  }
+
+  {
+    servicesSection && (
+      <Services
+        sectionTitle={servicesSection.title}
+        sectionSubtitle={servicesSection.subtitle}
+        showAllServices={servicesSection.showAllServices}
+        limit={servicesSection.limit}
+        cta={servicesSection.cta}
+      />
+    )
+  }
+
+  {
+    testimonialsSection && (
+      <Testimonials
+        title={testimonialsSection.title}
+        subtitle={testimonialsSection.subtitle}
+        testimonials={testimonialsSection.testimonials}
+      />
+    )
+  }
+
+  {
+    ctaSection && (
+      <CTA
+        title={ctaSection.title}
+        subtitle={ctaSection.subtitle}
+        ctaText={ctaSection.ctaPrimary.text}
+        ctaLink={ctaSection.ctaPrimary.link}
+        secondaryText={ctaSection.ctaSecondary?.text}
+        secondaryLink={ctaSection.ctaSecondary?.link}
+        trustedBy={ctaSection.trustedBy}
+      />
+    )
+  }
 </Layout>

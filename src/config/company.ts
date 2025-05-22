@@ -1,5 +1,4 @@
 // CTA config is now imported from cta.ts
-import { CTAConfig, ctaConfig } from './cta';
 
 export interface CompanyConfig {
   name: string;
@@ -30,7 +29,8 @@ export interface CompanyConfig {
 export const companyConfig: CompanyConfig = {
   name: "Business Template",
   tagline: "Elevate your business with our professional services",
-  description: "We provide comprehensive solutions to help your business grow and succeed in today's competitive market.",
+  description:
+    "We provide comprehensive solutions to help your business grow and succeed in today's competitive market.",
   logo: {
     text: "YourBrand",
     icon: "mdi:lightning-bolt",

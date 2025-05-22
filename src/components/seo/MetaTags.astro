@@ -24,12 +24,14 @@ const {
 } = Astro.props;
 
 // Format title
-const formattedTitle = title === siteConfig.name 
-  ? title
-  : `${title} | ${siteConfig.name}`;
+const formattedTitle =
+  title === siteConfig.name ? title : `${title} | ${siteConfig.name}`;
 
 // Build canonical URL
-const canonicalURL = new URL(canonical, Astro.site || Astro.url.origin).toString();
+const canonicalURL = new URL(
+  canonical,
+  Astro.site || Astro.url.origin,
+).toString();
 
 // Format robots meta
 const robotsContent = [];
@@ -41,7 +43,11 @@ if (nofollow) robotsContent.push("nofollow");
 <title>{formattedTitle}</title>
 <meta name="title" content={formattedTitle} />
 <meta name="description" content={description} />
-{robotsContent.length > 0 && <meta name="robots" content={robotsContent.join(", ")} />}
+{
+  robotsContent.length > 0 && (
+    <meta name="robots" content={robotsContent.join(", ")} />
+  )
+}
 <link rel="canonical" href={canonicalURL} />
 
 <!-- Open Graph / Facebook -->
@@ -49,7 +55,18 @@ if (nofollow) robotsContent.push("nofollow");
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={formattedTitle} />
 <meta property="og:description" content={description} />
-{image && <meta property="og:image" content={image.startsWith('http') ? image : new URL(image, Astro.url.origin).toString()} />}
+{
+  image && (
+    <meta
+      property="og:image"
+      content={
+        image.startsWith("http")
+          ? image
+          : new URL(image, Astro.url.origin).toString()
+      }
+    />
+  )
+}
 <meta property="og:site_name" content={siteConfig.name} />
 
 <!-- Twitter -->
@@ -57,7 +74,18 @@ if (nofollow) robotsContent.push("nofollow");
 <meta property="twitter:url" content={canonicalURL} />
 <meta property="twitter:title" content={formattedTitle} />
 <meta property="twitter:description" content={description} />
-{image && <meta property="twitter:image" content={image.startsWith('http') ? image : new URL(image, Astro.url.origin).toString()} />}
+{
+  image && (
+    <meta
+      property="twitter:image"
+      content={
+        image.startsWith("http")
+          ? image
+          : new URL(image, Astro.url.origin).toString()
+      }
+    />
+  )
+}
 
 <!-- Favicons -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

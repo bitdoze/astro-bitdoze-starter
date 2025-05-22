@@ -12,6 +12,11 @@ A professional and customizable Astro-based business website template with SEO o
 - **Customizable** with easy-to-update configuration files
 - **Icon Integration** using Astro Icon
 
+## ✨ SEO Features
+
+- **Sitemap Generation**: Automatically generates `sitemap-index.xml` (or `sitemap-0.xml`) using `@astrojs/sitemap` to help search engines discover all pages.
+- **RSS Feed**: Includes an RSS feed endpoint at `/rss.xml` using `@astrojs/rss`. The feed items are currently empty and need to be populated when blog/article content is added (see `src/pages/rss.xml.js`).
+
 ## 📋 Pages
 
 - **Home** - Landing page with hero, services, testimonials and CTA
@@ -29,17 +34,20 @@ A professional and customizable Astro-based business website template with SEO o
 ### Installation
 
 1. Clone this repository:
+
 ```bash
 git clone https://github.com/yourusername/business-website-template.git
 cd business-website-template
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -122,6 +130,20 @@ Edit `src/config/cta.ts` to update:
 - Primary and secondary button text and links
 - This shared configuration ensures consistent CTAs across all pages
 
+## 🛠️ Development Tools
+
+This project includes Prettier, ESLint, and Stylelint to ensure code quality, consistency, and adherence to best practices.
+
+- **Prettier**: For automatic code formatting.
+- **ESLint**: For identifying and fixing problems in JavaScript and Astro files.
+- **Stylelint**: For linting CSS and styles within Astro files.
+
+### Available npm Scripts:
+
+- `npm run format`: Formats all supported files in the project using Prettier.
+- `npm run lint:eslint`: Lints JavaScript and Astro files with ESLint.
+- `npm run lint:stylelint`: Lints CSS and style blocks in Astro files with Stylelint.
+
 ## 📦 Project Structure
 
 ```
@@ -161,6 +183,7 @@ Notice how you can apply the global CSS variables to your icons for consistent c
 ### Styling Best Practices
 
 When styling new components or pages:
+
 - Access color values with `var(--color-primary)`, `var(--color-secondary)`, etc.
 - Use spacing variables like `var(--space-4)` or the `.section-padding` utility class
 - Apply border radius with `var(--radius-lg)` or other radius variables

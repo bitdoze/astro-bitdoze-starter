@@ -20,80 +20,152 @@ const {
   subtitle = "Thousands of companies worldwide trust our platform to scale their businesses.",
   testimonials = [
     {
-      content: "This platform has completely transformed how we manage our operations. The analytics dashboard alone has saved us countless hours of manual work.",
+      content:
+        "This platform has completely transformed how we manage our operations. The analytics dashboard alone has saved us countless hours of manual work.",
       author: "Sarah Johnson",
       role: "CTO",
       company: "TechSolutions Inc.",
-      avatar: "https://randomuser.me/api/portraits/women/32.jpg"
+      avatar: "https://randomuser.me/api/portraits/women/32.jpg",
     },
     {
-      content: "We've tried several solutions before, but nothing compares to this platform. The automation features have helped us reduce operational costs by 35%.",
+      content:
+        "We've tried several solutions before, but nothing compares to this platform. The automation features have helped us reduce operational costs by 35%.",
       author: "Michael Rodriguez",
       role: "Director of Operations",
       company: "Innovate Labs",
-      avatar: "https://randomuser.me/api/portraits/men/45.jpg"
+      avatar: "https://randomuser.me/api/portraits/men/45.jpg",
     },
     {
-      content: "The customer support is exceptional. Whenever we have questions, the team responds quickly and effectively. It's rare to find this level of service.",
+      content:
+        "The customer support is exceptional. Whenever we have questions, the team responds quickly and effectively. It's rare to find this level of service.",
       author: "Emily Chen",
       role: "Product Manager",
       company: "Growth Ventures",
-      avatar: "https://randomuser.me/api/portraits/women/68.jpg"
-    }
-  ]
+      avatar: "https://randomuser.me/api/portraits/women/68.jpg",
+    },
+  ],
 } = Astro.props;
 ---
 
-<section class="section-padding overflow-hidden" style="background-color: var(--color-background-alt);">
+<section
+  class="section-padding overflow-hidden"
+  style="background-color: var(--color-background-alt);"
+>
   <div class="container">
     <!-- Section header -->
-    <div class="text-center mb-16 testimonial-header">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4" style="color: var(--color-text);">{title}</h2>
-      <p class="max-w-2xl mx-auto text-lg" style="color: var(--color-text-light);">{subtitle}</p>
+    <div class="testimonial-header mb-16 text-center">
+      <h2
+        class="mb-4 text-3xl font-bold md:text-4xl"
+        style="color: var(--color-text);"
+      >
+        {title}
+      </h2>
+      <p
+        class="mx-auto max-w-2xl text-lg"
+        style="color: var(--color-text-light);"
+      >
+        {subtitle}
+      </p>
     </div>
-    
+
     <!-- Company logos -->
-    <div class="mb-16 logo-carousel">
-      <div class="flex justify-between items-center gap-8 opacity-60" style="color: var(--color-text);">
-        {imageAssets.logos.trustedBadges.map((badge) => (
-          <div class="grayscale hover:grayscale-0 transition-all duration-300">
-            <svg class="h-8 w-auto" viewBox="0 0 168 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d={badge.svgPath} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              {badge.id === "badge3" && <circle cx="59" cy="20" r="3" fill="currentColor"/>}
-            </svg>
-          </div>
-        ))}
+    <div class="logo-carousel mb-16">
+      <div
+        class="flex items-center justify-between gap-8 opacity-60"
+        style="color: var(--color-text);"
+      >
+        {
+          imageAssets.logos.trustedBadges.map((badge) => (
+            <div class="grayscale transition-all duration-300 hover:grayscale-0">
+              <svg
+                class="h-8 w-auto"
+                viewBox="0 0 168 40"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d={badge.svgPath}
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                {badge.id === "badge3" && (
+                  <circle cx="59" cy="20" r="3" fill="currentColor" />
+                )}
+              </svg>
+            </div>
+          ))
+        }
       </div>
     </div>
-    
+
     <!-- Testimonials -->
     <div class="grid gap-8 md:grid-cols-3">
-      {testimonials.map((testimonial, index) => (
-        <div class="testimonial-card p-8 relative overflow-hidden" data-index={index} style="background-color: var(--color-background); border-radius: var(--radius-xl); border: 1px solid var(--color-text-lighter); box-shadow: var(--shadow-sm);">
-          <div class="absolute top-0 right-0 w-20 h-20 transform translate-x-1/2 -translate-y-1/2 rounded-full opacity-60" style="background-color: rgba(79, 70, 229, 0.1);"></div>
-          
-          <svg class="h-10 w-10 mb-4" style="color: var(--color-primary-light);" fill="currentColor" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10,8V20H20V8H10Z M12,18V10h6v8Z" transform="translate(0)"/>
-            <path d="M4,22V4H28V22H20v4H16V22ZM6,6V20H18v2h0v2h0V22h8V6Z" transform="translate(0)"/>
-          </svg>
-          
-          <p class="mb-6" style="color: var(--color-text-light);">{testimonial.content}</p>
-          
-          <div class="flex items-center">
-            {testimonial.avatar ? (
-              <img src={testimonial.avatar} alt={testimonial.author} class="w-12 h-12 rounded-full mr-4 border-2 shadow-sm" style="border-color: var(--color-text-lighter);" />
-            ) : (
-              <div class="w-12 h-12 rounded-full mr-4 flex items-center justify-center font-semibold" style="background-color: rgba(79, 70, 229, 0.1); color: var(--color-primary);">
-                {testimonial.author.split(' ').map(name => name[0]).join('')}
+      {
+        testimonials.map((testimonial, index) => (
+          <div
+            class="testimonial-card relative overflow-hidden p-8"
+            data-index={index}
+            style="background-color: var(--color-background); border-radius: var(--radius-xl); border: 1px solid var(--color-text-lighter); box-shadow: var(--shadow-sm);"
+          >
+            <div
+              class="absolute top-0 right-0 h-20 w-20 translate-x-1/2 -translate-y-1/2 transform rounded-full opacity-60"
+              style="background-color: rgb(79 70 229 / 10%);"
+            />
+
+            <svg
+              class="mb-4 h-10 w-10"
+              style="color: var(--color-primary-light);"
+              fill="currentColor"
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10,8V20H20V8H10Z M12,18V10h6v8Z"
+                transform="translate(0)"
+              />
+              <path
+                d="M4,22V4H28V22H20v4H16V22ZM6,6V20H18v2h0v2h0V22h8V6Z"
+                transform="translate(0)"
+              />
+            </svg>
+
+            <p class="mb-6" style="color: var(--color-text-light);">
+              {testimonial.content}
+            </p>
+
+            <div class="flex items-center">
+              {testimonial.avatar ? (
+                <img
+                  src={testimonial.avatar}
+                  alt={testimonial.author}
+                  class="mr-4 h-12 w-12 rounded-full border-2 shadow-sm"
+                  style="border-color: var(--color-text-lighter);"
+                />
+              ) : (
+                <div
+                  class="mr-4 flex h-12 w-12 items-center justify-center rounded-full font-semibold"
+                  style="background-color: rgb(79 70 229 / 10%); color: var(--color-primary);"
+                >
+                  {testimonial.author
+                    .split(" ")
+                    .map((name) => name[0])
+                    .join("")}
+                </div>
+              )}
+              <div>
+                <h4 class="font-semibold" style="color: var(--color-text);">
+                  {testimonial.author}
+                </h4>
+                <p class="text-sm" style="color: var(--color-text-light);">
+                  {testimonial.role}, {testimonial.company}
+                </p>
               </div>
-            )}
-            <div>
-              <h4 class="font-semibold" style="color: var(--color-text);">{testimonial.author}</h4>
-              <p class="text-sm" style="color: var(--color-text-light);">{testimonial.role}, {testimonial.company}</p>
             </div>
           </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </div>
 </section>
@@ -105,62 +177,70 @@ const {
     animation: fadeIn 0.8s ease-out forwards;
     animation-play-state: paused;
   }
-  
+
   /* Logo carousel animation */
   .logo-carousel {
-    animation: slide 20s linear infinite;
     opacity: 0;
     animation: fadeIn 0.8s ease-out 0.3s forwards;
     animation-play-state: paused;
   }
-  
+
   /* Animation for testimonial cards */
   .testimonial-card {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 0.6s ease-out forwards;
     animation-play-state: paused;
+    transition:
+      transform var(--transition-normal) ease,
+      box-shadow var(--transition-normal) ease;
   }
-  
+
   /* Stagger the animations based on index */
-  .testimonial-card[data-index="0"] { animation-delay: 0.4s; }
-  .testimonial-card[data-index="1"] { animation-delay: 0.6s; }
-  .testimonial-card[data-index="2"] { animation-delay: 0.8s; }
-  
+  .testimonial-card[data-index="0"] {
+    animation-delay: 0.4s;
+  }
+
+  .testimonial-card[data-index="1"] {
+    animation-delay: 0.6s;
+  }
+
+  .testimonial-card[data-index="2"] {
+    animation-delay: 0.8s;
+  }
+
   @keyframes fadeIn {
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }
   }
-  
+
   @keyframes fadeInUp {
     from {
       opacity: 0;
       transform: translateY(20px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  
+
   @keyframes slide {
     0% {
       transform: translateX(0);
     }
+
     100% {
       transform: translateX(-100%);
     }
   }
-  
-  /* Hover effect for testimonial cards */
-  .testimonial-card {
-    transition: transform var(--transition-normal) ease, box-shadow var(--transition-normal) ease;
-  }
-  
+
   .testimonial-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-md);
@@ -169,22 +249,27 @@ const {
 
 <script>
   // Intersection Observer to trigger animations when elements enter viewport
-  document.addEventListener('DOMContentLoaded', () => {
-    const animatedElements = document.querySelectorAll('.testimonial-header, .logo-carousel, .testimonial-card');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          (entry.target as HTMLElement).style.animationPlayState = 'running';
-          // Unobserve after triggering animation
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1
-    });
-    
-    animatedElements.forEach(element => {
+  document.addEventListener("DOMContentLoaded", () => {
+    const animatedElements = document.querySelectorAll(
+      ".testimonial-header, .logo-carousel, .testimonial-card",
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).style.animationPlayState = "running";
+            // Unobserve after triggering animation
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+      },
+    );
+
+    animatedElements.forEach((element) => {
       observer.observe(element);
     });
   });

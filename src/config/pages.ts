@@ -1,15 +1,15 @@
 import { siteConfig } from "./site";
 import { companyConfig } from "./company";
-import { services } from "./services";
-import { imageAssets } from "./assets";
-import { ctaConfig, getCtaSection } from "./cta";
+import { imageAssets } from "./assets"; // This should provide ImageAsset types
+import { getCtaSection } from "./cta";
+// import welcomeImageFile from "../assets/images/welcome-image.jpg"; // Commented out due to missing file
 
 // Page definitions
 export interface PageConfig {
   title: string;
   description: string;
   ogType?: string;
-  ogImage?: string;
+  ogImage?: string; // Uses siteConfig.ogImage which is now a placeholder
   sections: Section[];
 }
 
@@ -25,7 +25,7 @@ export interface HeroSection {
     text: string;
     link: string;
   };
-  imageUrl: string;
+  imageUrl: string; // This comes from imageAssets.hero which uses external URLs
   stats?: {
     value: string;
     label: string;
@@ -56,7 +56,7 @@ export interface WelcomeSection {
       link: string;
     }[];
   };
-  image: string;
+  image: string; // Changed to string for placeholder
   badge?: string;
 }
 
@@ -81,7 +81,7 @@ export interface TestimonialsSection {
     author: string;
     role: string;
     company: string;
-    avatar: string;
+    avatar: string; // Assumed to be public paths or external URLs
   }[];
 }
 
@@ -104,7 +104,7 @@ export interface AboutHeroSection {
   type: "aboutHero";
   title: string;
   subtitle: string;
-  imageUrl: string;
+  imageUrl: string; // From imageAssets.hero (external)
 }
 
 export interface StorySection {
@@ -112,7 +112,7 @@ export interface StorySection {
   title: string;
   subtitle: string;
   content: string;
-  image: string;
+  image: string; // External URL
   stats?: { value: string; label: string }[];
 }
 
@@ -135,7 +135,7 @@ export interface TeamSection {
     name: string;
     role: string;
     bio: string;
-    image: string;
+    image: string; // From imageAssets.team (local, but paths might be issues if files missing)
     socialMedia?: { platform: string; url: string; icon: string }[];
   }[];
 }
@@ -262,7 +262,7 @@ export const homePageConfig: PageConfig = {
         text: "Learn More",
         link: "/services",
       },
-      imageUrl: imageAssets.hero.main,
+      imageUrl: imageAssets.hero.main.src, // Using .src for external URL
       stats: [
         {
           value: "98%",
@@ -319,7 +319,7 @@ export const homePageConfig: PageConfig = {
           },
         ],
       },
-      image: "/images/welcome-image.jpg",
+      image: "/images/placeholder-welcome.jpg", // Placeholder path
       badge: "15+ Years Experience",
     },
     {
@@ -385,7 +385,7 @@ export const aboutPageConfig: PageConfig = {
       title: "About Us",
       subtitle:
         "Learn about our company's mission, values, and the team behind our success.",
-      imageUrl: imageAssets.hero.about,
+      imageUrl: imageAssets.hero.about.src, // Using .src for external URL
     },
     {
       type: "story",
@@ -397,7 +397,7 @@ export const aboutPageConfig: PageConfig = {
 
       <p>Today, we serve clients from various industries worldwide, helping them navigate the complexities of modern business and technology. Our approach combines industry best practices with innovative solutions tailored to each client's unique needs.</p>`,
       image:
-        "https://images.unsplash.com/photo-1551761429-8232f9f5955c?q=80&w=2070&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1551761429-8232f9f5955c?q=80&w=2070&auto=format&fit=crop", // External
       stats: [
         { value: "15+", label: "Years of experience" },
         { value: "500+", label: "Clients worldwide" },
@@ -456,7 +456,7 @@ export const aboutPageConfig: PageConfig = {
           name: "John Smith",
           role: "CEO & Founder",
           bio: "John brings over 20 years of experience in business strategy and technology leadership. His vision and expertise have been instrumental in our company's growth and success.",
-          image: "https://xsgames.co/randomusers/assets/avatars/male/1.jpg",
+          image: imageAssets.team["john-smith"].src, // Using .src from imported local asset
           socialMedia: [
             {
               platform: "LinkedIn",
@@ -474,7 +474,7 @@ export const aboutPageConfig: PageConfig = {
           name: "Sarah Johnson",
           role: "Chief Operating Officer",
           bio: "Sarah oversees our day-to-day operations, ensuring that we deliver exceptional service to our clients while maintaining operational efficiency.",
-          image: "https://xsgames.co/randomusers/assets/avatars/female/1.jpg",
+          image: imageAssets.team["jane-doe"].src, // Example, assuming jane-doe is Sarah
           socialMedia: [
             {
               platform: "LinkedIn",
@@ -492,7 +492,7 @@ export const aboutPageConfig: PageConfig = {
           name: "Michael Chen",
           role: "Chief Technology Officer",
           bio: "Michael leads our technology initiatives, keeping us at the forefront of innovation and ensuring that we leverage the latest technologies to serve our clients.",
-          image: "https://xsgames.co/randomusers/assets/avatars/male/2.jpg",
+          image: imageAssets.team["michael-brown"].src, // Example
           socialMedia: [
             {
               platform: "LinkedIn",
@@ -510,7 +510,7 @@ export const aboutPageConfig: PageConfig = {
           name: "Emily Rodriguez",
           role: "Chief Marketing Officer",
           bio: "Emily spearheads our marketing strategies, helping clients elevate their brand presence and achieve their marketing objectives.",
-          image: "https://xsgames.co/randomusers/assets/avatars/female/2.jpg",
+          image: imageAssets.team["emily-chen"].src, // Example
           socialMedia: [
             {
               platform: "LinkedIn",
@@ -541,7 +541,7 @@ export const servicesPageConfig: PageConfig = {
       type: "aboutHero",
       title: "Our Services",
       subtitle: "Comprehensive solutions tailored to your business needs",
-      imageUrl: imageAssets.hero.services,
+      imageUrl: imageAssets.hero.services.src, // Using .src for external URL
     },
     {
       type: "servicesList",
@@ -551,7 +551,7 @@ export const servicesPageConfig: PageConfig = {
       showAllServices: true,
       cta: {
         text: "Learn More",
-        link: "/services"
+        link: "/services",
       },
     },
     {
@@ -663,7 +663,7 @@ export const contactPageConfig: PageConfig = {
           details: `${companyConfig.contact.address.street}, ${companyConfig.contact.address.city}, ${companyConfig.contact.address.state} ${companyConfig.contact.address.zip}`,
           icon: "mdi:map-marker",
           link: `https://maps.google.com/?q=${encodeURIComponent(
-            `${companyConfig.contact.address.street}, ${companyConfig.contact.address.city}, ${companyConfig.contact.address.state} ${companyConfig.contact.address.zip}`
+            `${companyConfig.contact.address.street}, ${companyConfig.contact.address.city}, ${companyConfig.contact.address.state} ${companyConfig.contact.address.zip}`,
           )}`,
         },
       ],

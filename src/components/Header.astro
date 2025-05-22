@@ -1,7 +1,9 @@
 ---
-import { Icon } from "astro-icon/components";
+import { Icon } from "astro-icon/components"; // Keep for menu icon
+// import { Image } from "astro:assets"; // Potentially remove if not used elsewhere
 import { navConfig } from "../config/nav";
 import { companyConfig } from "../config/company";
+import { imageAssets } from "../config/assets";
 
 interface Props {
   logoText?: string;
@@ -11,79 +13,126 @@ interface Props {
   };
 }
 
-const { 
-  logoText = companyConfig.logo.text,
-  ctaButton = navConfig.ctaButton
-} = Astro.props;
+const { logoText = companyConfig.logo.text, ctaButton = navConfig.ctaButton } =
+  Astro.props;
 ---
 
 <header class="sticky top-0 z-40 w-full backdrop-blur">
-  <div class="container mx-auto flex h-16 items-center justify-between">
+  <div class="container flex h-16 items-center justify-between">
     <!-- Logo -->
     <div class="flex shrink-0 items-center">
       <a href="/" class="flex items-center gap-2">
-        <Icon name={companyConfig.logo.icon} class="h-8 w-8" style="color: var(--color-primary);" />
-        <span class="font-semibold text-xl">{logoText}</span>
+        <img
+          src={imageAssets.logos.site.src}
+          alt={imageAssets.logos.site.alt || "Site Logo"}
+          width="120"
+          height="30"
+          class="h-auto" 
+        />
+        <span class="text-xl font-semibold">{logoText}</span>
       </a>
     </div>
 
     <!-- Navigation -->
-    <nav class="hidden md:flex space-x-8">
-      {navConfig.mainNav.map((item) => (
-        <a 
-          href={item.href} 
-          class="text-sm font-medium transition-colors" style="hover:color: var(--color-primary); transition: all var(--transition-normal);"
-          aria-disabled={item.disabled}
-        >
-          {item.title}
-        </a>
-      ))}
+    <nav class="hidden space-x-8 md:flex">
+      {
+        navConfig.mainNav.map((item) =>
+          item.disabled ? (
+            <span
+              class="text-sm font-medium text-gray-400 opacity-50 cursor-not-allowed"
+              role="link"
+              aria-disabled="true"
+            >
+              {item.title}
+            </span>
+          ) : (
+            <a
+              href={item.href}
+              class="text-sm font-medium transition-colors hover:text-primary"
+            >
+              {item.title}
+            </a>
+          )
+        )
+      }
     </nav>
 
     <!-- Primary Action Button -->
-    <div class="hidden md:flex items-center space-x-4">
-      {ctaButton && (
-        <a 
-          href={ctaButton.href} 
-          class="btn btn-primary inline-flex h-9 items-center justify-center px-4 py-2 text-sm font-medium text-white shadow"
-        >
-          {ctaButton.text}
-        </a>
-      )}
+    <div class="hidden items-center space-x-4 md:flex">
+      {
+        ctaButton && (
+          <a
+            href={ctaButton.href}
+            class="btn btn-primary inline-flex h-9 items-center justify-center px-4 py-2 text-sm font-medium text-white shadow"
+          >
+            {ctaButton.text}
+          </a>
+        )
+      }
     </div>
 
     <!-- Mobile menu button -->
     <div class="flex md:hidden">
-      <button type="button" id="mobile-menu-button" aria-expanded="false" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-indigo-600 focus:outline-none">
+      <button
+        type="button"
+        id="mobile-menu-button"
+        aria-expanded="false"
+        class="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:text-indigo-600 focus:outline-none"
+      >
         <span class="sr-only">Open main menu</span>
-        <Icon name="mdi:menu" class="w-6 h-6" style="color: var(--color-text);" />
+        <Icon
+          name="mdi:menu"
+          class="h-6 w-6"
+          style="color: var(--color-text);"
+          aria-hidden="true"
+        />
       </button>
     </div>
   </div>
 
   <!-- Mobile menu, show/hide based on menu state. -->
-  <div id="mobile-menu" class="hidden md:hidden bg-white p-4" style="box-shadow: var(--shadow-md);">
+  <div
+    id="mobile-menu"
+    class="hidden bg-white p-4 md:hidden"
+    style="box-shadow: var(--shadow-md);"
+  >
     <div class="space-y-1 pb-3">
-      {navConfig.mainNav.map((item) => (
-        <a 
-          href={item.href} 
-          class="block py-2 text-base font-medium transition-colors" style="transition: all var(--transition-normal); hover:color: var(--color-primary);"
-          aria-disabled={item.disabled}
-        >
-          {item.title}
-        </a>
-      ))}
+      {
+        navConfig.mainNav.map((item) =>
+          item.disabled ? (
+            <span
+              class="block py-2 text-base font-medium text-gray-400 opacity-50 cursor-not-allowed"
+              role="link"
+              aria-disabled="true"
+            >
+              {item.title}
+            </span>
+          ) : (
+            <a
+              href={item.href}
+              class="block py-2 text-base font-medium transition-colors hover:text-primary"
+            >
+              {item.title}
+            </a>
+          )
+        )
+      }
     </div>
-    <div class="border-t pt-4 pb-3" style="border-color: var(--color-text-lighter);">
+    <div
+      class="border-t pt-4 pb-3"
+      style="border-color: var(--color-text-lighter);"
+    >
       <div class="flex items-center">
-        {ctaButton && (
-          <a 
-            href={ctaButton.href} 
-            class="btn btn-primary w-full px-4 py-2 text-center text-sm font-medium text-white"
-          >
-            {ctaButton.text}
-          </a>
-        )}
+        {
+          ctaButton && (
+            <a
+              href={ctaButton.href}
+              class="btn btn-primary w-full px-4 py-2 text-center text-sm font-medium text-white"
+            >
+              {ctaButton.text}
+            </a>
+          )
+        }
       </div>
     </div>
   </div>
@@ -91,15 +140,15 @@ const {
 
 <script>
   // Mobile menu toggle functionality
-  document.addEventListener('DOMContentLoaded', () => {
-    const menuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
+  document.addEventListener("DOMContentLoaded", () => {
+    const menuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
 
     if (menuButton && mobileMenu) {
-      menuButton.addEventListener('click', () => {
-        const expanded = menuButton.getAttribute('aria-expanded') === 'true';
-        menuButton.setAttribute('aria-expanded', (!expanded).toString());
-        mobileMenu.classList.toggle('hidden');
+      menuButton.addEventListener("click", () => {
+        const expanded = menuButton.getAttribute("aria-expanded") === "true";
+        menuButton.setAttribute("aria-expanded", (!expanded).toString());
+        mobileMenu.classList.toggle("hidden");
       });
     }
   });

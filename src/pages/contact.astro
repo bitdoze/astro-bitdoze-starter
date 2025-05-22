@@ -1,264 +1,373 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { Icon } from 'astro-icon/components';
-import { contactPageConfig } from '../config/pages';
-import { companyConfig } from '../config/company';
-import CTA from '../components/CTA.astro';
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { contactPageConfig } from "../config/pages";
+import { companyConfig } from "../config/company";
+import CTA from "../components/CTA.astro";
 
 // Extract sections from config
-const heroSection = contactPageConfig.sections.find(section => section.type === "contactHero");
-const contactInfoSection = contactPageConfig.sections.find(section => section.type === "contactInfo");
-const formSection = contactPageConfig.sections.find(section => section.type === "contactForm");
-const mapSection = contactPageConfig.sections.find(section => section.type === "map");
-const hoursSection = contactPageConfig.sections.find(section => section.type === "businessHours");
-const ctaSection = contactPageConfig.sections.find(section => section.type === "cta");
+const heroSection = contactPageConfig.sections.find(
+  (section) => section.type === "contactHero",
+);
+const contactInfoSection = contactPageConfig.sections.find(
+  (section) => section.type === "contactInfo",
+);
+const formSection = contactPageConfig.sections.find(
+  (section) => section.type === "contactForm",
+);
+const mapSection = contactPageConfig.sections.find(
+  (section) => section.type === "map",
+);
+const hoursSection = contactPageConfig.sections.find(
+  (section) => section.type === "businessHours",
+);
+const ctaSection = contactPageConfig.sections.find(
+  (section) => section.type === "cta",
+);
 ---
 
-<Layout 
+<Layout
   title={contactPageConfig.title}
   description={contactPageConfig.description}
   structuredData={{
-    type: 'localBusiness',
+    type: "localBusiness",
     data: {
       name: companyConfig.name,
-      description: companyConfig.description
-    }
+      description: companyConfig.description,
+    },
   }}
 >
   <!-- Hero Section -->
-  {heroSection && (
-    <section class="section-padding" style="background: linear-gradient(to bottom, rgba(79, 70, 229, 0.1), white);">
-      <div class="container text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-6">{heroSection.title}</h1>
-        <p class="text-xl max-w-3xl mx-auto mb-8" style="color: var(--color-text-light);">
-          {heroSection.subtitle}
-        </p>
-        <a 
-          href="#contact-form" 
-          class="btn btn-primary inline-flex h-12 items-center justify-center px-6 font-medium text-white"
-          style="background-color: var(--color-primary); border-radius: var(--radius-lg); transition: all var(--transition-normal);"
-        >
-          {heroSection.buttonText || "Get in Touch"}
-          <Icon name="mdi:arrow-right" class="ml-2 h-5 w-5" />
-        </a>
-      </div>
-    </section>
-  )}
+  {
+    heroSection && (
+      <section
+        class="section-padding"
+        style="background: linear-gradient(to bottom, rgb(79 70 229 / 10%), white);"
+      >
+        <div class="container text-center">
+          <h1 class="mb-6 text-4xl font-bold md:text-5xl">
+            {heroSection.title}
+          </h1>
+          <p
+            class="mx-auto mb-8 max-w-3xl text-xl"
+            style="color: var(--color-text-light);"
+          >
+            {heroSection.subtitle}
+          </p>
+          <a
+            href="#contact-form"
+            class="btn btn-primary inline-flex h-12 items-center justify-center px-6 font-medium text-white"
+            style="background-color: var(--color-primary); border-radius: var(--radius-lg); transition: all var(--transition-normal);"
+          >
+            {heroSection.buttonText || "Get in Touch"}
+            <Icon name="mdi:arrow-right" class="ml-2 h-5 w-5" />
+          </a>
+        </div>
+      </section>
+    )
+  }
 
   <!-- Contact Info & Form -->
   <section class="section-padding">
     <div class="container">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-3">
         <!-- Contact Information -->
-        {contactInfoSection && (
-          <div>
-            <h2 class="text-2xl font-bold mb-6">{contactInfoSection.title}</h2>
-            <p style="color: var(--color-text-light);" class="mb-8">
-              {contactInfoSection.subtitle}
-            </p>
-            
-            <div class="space-y-6">
-              {contactInfoSection.contactInfo.map((item) => (
-                <a href={item.link} class="flex items-start p-4 transition-colors" style="background-color: var(--color-background-alt); border-radius: var(--radius-lg); transition: all var(--transition-normal);">
-                  <div class="rounded-full p-3 mr-4" style="background-color: rgba(79, 70, 229, 0.1);">
-                    <Icon name={item.icon} class="h-6 w-6" style="color: var(--color-primary);" />
-                  </div>
-                  <div>
-                    <h3 class="font-semibold text-lg">{item.title}</h3>
-                    <p style="color: var(--color-text-light);">{item.details}</p>
-                  </div>
-                </a>
-              ))}
-            </div>
-            
-            <div class="mt-8">
-              <h3 class="font-semibold text-lg mb-4">{contactInfoSection.sectionTitle || "Connect With Us"}</h3>
-              <div class="flex space-x-4">
-                {companyConfig.socialMedia.map((social) => (
-                  <a 
-                    href={social.url} 
-                    class="p-3 rounded-full transition-colors" 
-                    style="background-color: var(--color-background-alt); transition: all var(--transition-normal);"
-                    aria-label={social.platform}
+        {
+          contactInfoSection && (
+            <div>
+              <h2 class="mb-6 text-2xl font-bold">
+                {contactInfoSection.title}
+              </h2>
+              <p style="color: var(--color-text-light);" class="mb-8">
+                {contactInfoSection.subtitle}
+              </p>
+
+              <div class="space-y-6">
+                {contactInfoSection.contactInfo.map((item) => (
+                  <a
+                    href={item.link}
+                    class="flex items-start p-4 transition-colors"
+                    style="background-color: var(--color-background-alt); border-radius: var(--radius-lg); transition: all var(--transition-normal);"
                   >
-                    <Icon name={social.icon} class="h-5 w-5" style="color: var(--color-primary);" />
+                    <div
+                      class="mr-4 rounded-full p-3"
+                      style="background-color: rgb(79 70 229 / 10%);"
+                    >
+                      <Icon
+                        name={item.icon}
+                        class="h-6 w-6"
+                        style="color: var(--color-primary);"
+                      />
+                    </div>
+                    <div>
+                      <h3 class="text-lg font-semibold">{item.title}</h3>
+                      <p style="color: var(--color-text-light);">
+                        {item.details}
+                      </p>
+                    </div>
                   </a>
                 ))}
               </div>
-            </div>
-          </div>
-        )}
-        
-        <!-- Contact Form -->
-        {formSection && (
-          <div id="contact-form" class="lg:col-span-2">
-            <div class="p-8" style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);">
-              <h2 class="text-2xl font-bold mb-6">{formSection.title}</h2>
-              <form class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {formSection.fields.filter(field => field.type === 'text').slice(0, 2).map(field => (
-                    <div>
-                      <label for={field.id} class="block text-sm font-medium mb-1" style="color: var(--color-text);">{field.label}</label>
-                      <input 
-                        type={field.type}
-                        id={field.id}
-                        name={field.name}
-                        class="w-full px-4 py-2 border" 
-                        style="border-color: var(--color-text-lighter); border-radius: var(--radius-md);"
-                        required={field.required}
+
+              <div class="mt-8">
+                <h3 class="mb-4 text-lg font-semibold">
+                  {contactInfoSection.sectionTitle || "Connect With Us"}
+                </h3>
+                <div class="flex space-x-4">
+                  {companyConfig.socialMedia.map((social) => (
+                    <a
+                      href={social.url}
+                      class="rounded-full p-3 transition-colors"
+                      style="background-color: var(--color-background-alt); transition: all var(--transition-normal);"
+                      aria-label={social.platform}
+                    >
+                      <Icon
+                        name={social.icon}
+                        class="h-5 w-5"
+                        style="color: var(--color-primary);"
                       />
-                    </div>
+                    </a>
                   ))}
                 </div>
-                
-                {formSection.fields.filter(field => !['text', 'checkbox'].includes(field.type)).map(field => (
-                  <div>
-                    <label for={field.id} class="block text-sm font-medium mb-1" style="color: var(--color-text);">{field.label}</label>
-                    {field.type === 'textarea' ? (
-                      <textarea 
-                        id={field.id}
-                        name={field.name}
-                        rows="5"
-                        class="w-full px-4 py-2 border" 
-                        style="border-color: var(--color-text-lighter); border-radius: var(--radius-md);"
-                        required={field.required}
-                      ></textarea>
-                    ) : field.type === 'select' ? (
-                      <select 
-                        id={field.id}
-                        name={field.name}
-                        class="w-full px-4 py-2 border" 
-                        style="border-color: var(--color-text-lighter); border-radius: var(--radius-md);"
-                        required={field.required}
-                      >
-                        <option value="" disabled selected>Please select</option>
-                        {field.options?.map(option => (
-                          <option value={option.value}>{option.label}</option>
-                        ))}
-                      </select>
-                    ) : (
-                      <input 
-                        type={field.type}
-                        id={field.id}
-                        name={field.name}
-                        class="w-full px-4 py-2 border" 
-                        style="border-color: var(--color-text-lighter); border-radius: var(--radius-md);"
-                        required={field.required}
-                      />
-                    )}
-                  </div>
-                ))}
-                
-                {formSection.fields.filter(field => field.type === 'checkbox').map(field => (
-                  <div class="flex items-start">
-                    <input 
-                      type="checkbox"
-                      id={field.id}
-                      name={field.name}
-                      class="mt-1 h-4 w-4" 
-                      style="color: var(--color-primary); border-color: var(--color-text-lighter);"
-                      required={field.required}
-                    />
-                    <label for={field.id} class="ml-2 block text-sm" style="color: var(--color-text);">
-                      {field.label}
-                    </label>
-                  </div>
-                ))}
-                
-                <div>
-                  <button 
-                    type="submit" 
-                    class="btn btn-primary inline-flex justify-center w-full md:w-auto px-6 py-3 text-base font-medium text-white"
-                  >
-                    {formSection.submitText}
-                  </button>
-                </div>
-              </form>
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }
+
+        <!-- Contact Form -->
+        {
+          formSection && (
+            <div id="contact-form" class="lg:col-span-2">
+              <div
+                class="p-8"
+                style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);"
+              >
+                <h2 class="mb-6 text-2xl font-bold">{formSection.title}</h2>
+                <form class="space-y-6">
+                  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    {formSection.fields
+                      .filter((field) => field.type === "text")
+                      .slice(0, 2)
+                      .map((field) => (
+                        <div>
+                          <label
+                            for={field.id}
+                            class="mb-1 block text-sm font-medium"
+                            style="color: var(--color-text);"
+                          >
+                            {field.label}
+                          </label>
+                          <input
+                            type={field.type}
+                            id={field.id}
+                            name={field.name}
+                            class="w-full border px-4 py-2"
+                            style="border-color: var(--color-text-lighter); border-radius: var(--radius-md);"
+                            required={field.required}
+                          />
+                        </div>
+                      ))}
+                  </div>
+
+                  {formSection.fields
+                    .filter(
+                      (field) => !["text", "checkbox"].includes(field.type),
+                    )
+                    .map((field) => (
+                      <div>
+                        <label
+                          for={field.id}
+                          class="mb-1 block text-sm font-medium"
+                          style="color: var(--color-text);"
+                        >
+                          {field.label}
+                        </label>
+                        {field.type === "textarea" ? (
+                          <textarea
+                            id={field.id}
+                            name={field.name}
+                            rows="5"
+                            class="w-full border px-4 py-2"
+                            style="border-color: var(--color-text-lighter); border-radius: var(--radius-md);"
+                            required={field.required}
+                          />
+                        ) : field.type === "select" ? (
+                          <select
+                            id={field.id}
+                            name={field.name}
+                            class="w-full border px-4 py-2"
+                            style="border-color: var(--color-text-lighter); border-radius: var(--radius-md);"
+                            required={field.required}
+                          >
+                            <option value="" disabled selected>
+                              Please select
+                            </option>
+                            {field.options?.map((option) => (
+                              <option value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <input
+                            type={field.type}
+                            id={field.id}
+                            name={field.name}
+                            class="w-full border px-4 py-2"
+                            style="border-color: var(--color-text-lighter); border-radius: var(--radius-md);"
+                            required={field.required}
+                          />
+                        )}
+                      </div>
+                    ))}
+
+                  {formSection.fields
+                    .filter((field) => field.type === "checkbox")
+                    .map((field) => (
+                      <div class="flex items-start">
+                        <input
+                          type="checkbox"
+                          id={field.id}
+                          name={field.name}
+                          class="mt-1 h-4 w-4"
+                          style="color: var(--color-primary); border-color: var(--color-text-lighter);"
+                          required={field.required}
+                        />
+                        <label
+                          for={field.id}
+                          class="ml-2 block text-sm"
+                          style="color: var(--color-text);"
+                        >
+                          {field.label}
+                        </label>
+                      </div>
+                    ))}
+
+                  <div>
+                    <button
+                      type="submit"
+                      class="btn btn-primary inline-flex w-full justify-center px-6 py-3 text-base font-medium text-white md:w-auto"
+                    >
+                      {formSection.submitText}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )
+        }
       </div>
     </div>
   </section>
 
   <!-- Map Section -->
-  {mapSection && (
-    <section class="section-padding" style="background-color: var(--color-background-alt);">
-      <div class="container">
-        <div class="text-center mb-16" id="our-location">
-          <h2 class="text-3xl font-bold mb-4">{mapSection.title}</h2>
-          <p style="color: var(--color-text-light);" class="max-w-2xl mx-auto">
-            {mapSection.subtitle}
-          </p>
-        </div>
-        
-        <div class="overflow-hidden h-96" style="background-color: var(--color-background-alt); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);">
-          <!-- Placeholder for an actual map integration -->
-          <div class="w-full h-full flex items-center justify-center" style="background-color: rgba(0,0,0,0.05);">
-            <div class="text-center p-6">
-              <Icon name="mdi:map" class="h-16 w-16 mx-auto mb-4" style="color: var(--color-text-lighter);" />
-              <h3 class="text-xl font-semibold mb-2">Map Placeholder</h3>
-              <p style="color: var(--color-text-light);" class="mb-4">In a real implementation, an interactive map would be displayed here.</p>
-              <a
-                href={`https://maps.google.com/?q=${encodeURIComponent(mapSection.address)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center font-medium" 
-                style="color: var(--color-primary); transition: all var(--transition-normal);"
-              >
-                View on Google Maps
-                <Icon name="mdi:arrow-right" class="ml-1 h-4 w-4" />
-              </a>
+  {
+    mapSection && (
+      <section
+        class="section-padding"
+        style="background-color: var(--color-background-alt);"
+      >
+        <div class="container">
+          <div class="mb-16 text-center" id="our-location">
+            <h2 class="mb-4 text-3xl font-bold">{mapSection.title}</h2>
+            <p
+              style="color: var(--color-text-light);"
+              class="mx-auto max-w-2xl"
+            >
+              {mapSection.subtitle}
+            </p>
+          </div>
+
+          <div
+            class="h-96 overflow-hidden"
+            style="background-color: var(--color-background-alt); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);"
+          >
+            <div
+              class="flex h-full w-full items-center justify-center"
+              style="background-color: rgb(0 0 0 / 5%);"
+            >
+              <div class="p-6 text-center">
+                <Icon
+                  name="mdi:map"
+                  class="mx-auto mb-4 h-16 w-16"
+                  style="color: var(--color-text-lighter);"
+                />
+                <h3 class="mb-2 text-xl font-semibold">Map Placeholder</h3>
+                <p style="color: var(--color-text-light);" class="mb-4">
+                  In a real implementation, an interactive map would be
+                  displayed here.
+                </p>
+                <a
+                  href={`https://maps.google.com/?q=${encodeURIComponent(mapSection.address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center font-medium"
+                  style="color: var(--color-primary); transition: all var(--transition-normal);"
+                >
+                  View on Google Maps
+                  <Icon name="mdi:arrow-right" class="ml-1 h-4 w-4" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  )}
+      </section>
+    )
+  }
 
   <!-- Business Hours -->
-  {hoursSection && (
-    <section class="section-padding">
-      <div class="container">
-        <div class="max-w-2xl mx-auto">
-          <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold mb-4">{hoursSection.title}</h2>
-            <p style="color: var(--color-text-light);">
-              {hoursSection.subtitle}
+  {
+    hoursSection && (
+      <section class="section-padding">
+        <div class="container">
+          <div class="mx-auto max-w-2xl">
+            <div class="mb-12 text-center">
+              <h2 class="mb-4 text-3xl font-bold">{hoursSection.title}</h2>
+              <p style="color: var(--color-text-light);">
+                {hoursSection.subtitle}
+              </p>
+            </div>
+
+            <div
+              class="overflow-hidden"
+              style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);"
+            >
+              <table class="w-full border-collapse">
+                <tbody>
+                  {hoursSection.hours.map((item, index, array) => (
+                    <tr
+                      class={index < array.length - 1 ? "border-b" : ""}
+                      style="border-color: var(--color-text-lighter);"
+                    >
+                      <td class="px-6 py-4 font-medium">{item.days}</td>
+                      <td class="px-6 py-4 text-right">{item.hours}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <p style="color: var(--color-text-light);" class="mt-6 text-center">
+              {hoursSection.note}
             </p>
           </div>
-          
-          <div class="overflow-hidden" style="background-color: var(--color-background); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); border: 1px solid var(--color-text-lighter);">
-            <table class="w-full border-collapse">
-              <tbody>
-                {hoursSection.hours.map((item, index, array) => (
-                  <tr class={index < array.length - 1 ? "border-b" : ""} style="border-color: var(--color-text-lighter);">
-                    <td class="py-4 px-6 font-medium">{item.days}</td>
-                    <td class="py-4 px-6 text-right">{item.hours}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          
-          <p style="color: var(--color-text-light);" class="text-center mt-6">
-            {hoursSection.note}
-          </p>
         </div>
-      </div>
-    </section>
-  )}
-  
+      </section>
+    )
+  }
+
   <!-- CTA Section -->
-  {ctaSection && (
-    <CTA 
-      title={ctaSection.title}
-      subtitle={ctaSection.subtitle}
-      ctaText={ctaSection.ctaPrimary.text}
-      ctaLink={ctaSection.ctaPrimary.link}
-      secondaryText={ctaSection.ctaSecondary?.text}
-      secondaryLink={ctaSection.ctaSecondary?.link}
-      trustedBy={ctaSection.trustedBy}
-    />
-  )}
+  {
+    ctaSection && (
+      <CTA
+        title={ctaSection.title}
+        subtitle={ctaSection.subtitle}
+        ctaText={ctaSection.ctaPrimary.text}
+        ctaLink={ctaSection.ctaPrimary.link}
+        secondaryText={ctaSection.ctaSecondary?.text}
+        secondaryLink={ctaSection.ctaSecondary?.link}
+        trustedBy={ctaSection.trustedBy}
+      />
+    )
+  }
 </Layout>

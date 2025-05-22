@@ -1,7 +1,7 @@
 ---
-import { Icon } from 'astro-icon/components';
-import { ctaConfig } from '../config/cta';
-import { imageAssets } from '../config/assets';
+import { Icon } from "astro-icon/components";
+import { ctaConfig } from "../config/cta";
+import { imageAssets } from "../config/assets";
 
 interface Props {
   title?: string;
@@ -24,86 +24,135 @@ const {
   ctaSecondary = ctaConfig.secondaryAction?.text || "Learn More",
   ctaPrimaryLink = ctaConfig.primaryAction.href,
   ctaSecondaryLink = ctaConfig.secondaryAction?.href || "/services",
-  imageUrl = imageAssets.hero.main,
+  imageUrl = imageAssets.hero.main.src, // Use .src for the URL
   stats = [
     { value: "98%", label: "Customer satisfaction" },
     { value: "15+", label: "Years experience" },
-    { value: "500+", label: "Clients served" }
-  ]
+    { value: "500+", label: "Clients served" },
+  ],
 } = Astro.props;
 ---
 
-<section class="overflow-hidden section-padding relative" style="background-color: var(--color-background-alt);">
+<section
+  class="section-padding relative overflow-hidden"
+  style="background-color: var(--color-background-alt);"
+>
   <!-- Background gradient -->
-  <div class="absolute inset-0 opacity-50" style="background: linear-gradient(to bottom right, rgba(79, 70, 229, 0.1), white, rgba(14, 165, 233, 0.1));"></div>
-  
+  <div
+    class="absolute inset-0 opacity-50"
+    style="background: linear-gradient(to bottom right, rgb(79 70 229 / 10%), white, rgb(14 165 233 / 10%));"
+  >
+  </div>
+
   <!-- Animated background elements -->
   <div class="absolute inset-0 overflow-hidden">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
   </div>
-  
+
   <!-- Grid pattern -->
   <div class="absolute inset-0 opacity-5">
     <div class="grid-pattern"></div>
   </div>
 
-  <div class="relative mx-auto container">
+  <div class="relative container mx-auto">
     <div class="grid items-center gap-12 md:grid-cols-2">
-      
       <!-- Left column (text content) -->
       <div class="fade-in-slide-up">
-        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+        <h1
+          class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl"
+        >
           {title}
         </h1>
         <p class="mt-6 max-w-xl text-lg text-gray-600">
           {subtitle}
         </p>
-        
+
         <div class="mt-10 flex flex-col gap-4 sm:flex-row">
-          <a href={ctaPrimaryLink} class="button-pop inline-flex h-12 items-center justify-center px-6 font-medium text-white" style="background-color: var(--color-primary); border-radius: var(--radius-lg); transition: all var(--transition-normal);">
+          <a
+            href={ctaPrimaryLink}
+            class="button-pop inline-flex h-12 items-center justify-center px-6 font-medium text-white"
+            style="background-color: var(--color-primary); border-radius: var(--radius-lg); transition: all var(--transition-normal);"
+          >
             {ctaPrimary}
             <Icon name="mdi:arrow-right" class="ml-2 h-5 w-5" />
           </a>
-          <a href={ctaSecondaryLink} class="button-pulse inline-flex h-12 items-center justify-center px-6 font-medium" style="border-radius: var(--radius-lg); border: 1px solid var(--color-text-lighter); background-color: white; color: var(--color-text); transition: all var(--transition-normal);">
+          <a
+            href={ctaSecondaryLink}
+            class="button-pulse inline-flex h-12 items-center justify-center px-6 font-medium"
+            style="border-radius: var(--radius-lg); border: 1px solid var(--color-text-lighter); background-color: white; color: var(--color-text); transition: all var(--transition-normal);"
+          >
             {ctaSecondary}
           </a>
         </div>
-        
+
         <!-- Stats -->
         <div class="mt-12 flex flex-wrap gap-x-8 gap-y-4 opacity-75">
-          {stats.map((stat, index) => (
-            <div class="stat-item">
-              <p class="text-3xl font-bold" style="color: var(--color-primary);">{stat.value}</p>
-              <p class="text-sm" style="color: var(--color-text-light);">{stat.label}</p>
-            </div>
-          ))}
+          {
+            stats.map((stat) => (
+              <div class="stat-item">
+                <p
+                  class="text-3xl font-bold"
+                  style="color: var(--color-primary);"
+                >
+                  {stat.value}
+                </p>
+                <p class="text-sm" style="color: var(--color-text-light);">
+                  {stat.label}
+                </p>
+              </div>
+            ))
+          }
         </div>
       </div>
-      
+
       <!-- Right column (dashboard mockup) -->
       <div class="dashboard-mockup relative flex justify-center">
-        <div class="relative w-full max-w-xl overflow-hidden float-in" style="box-shadow: var(--shadow-xl); border-radius: var(--radius-xl); border: 1px solid var(--color-text-lighter);">
-          <img 
+        <div
+          class="float-in relative w-full max-w-xl overflow-hidden"
+          style="box-shadow: var(--shadow-xl); border-radius: var(--radius-xl); border: 1px solid var(--color-text-lighter);"
+        >
+          <img
             src={imageUrl}
-            alt="Business Solutions" 
+            alt={imageAssets.hero.main.alt || "Business Solutions"} // Use .alt and provide fallback
             class="w-full"
             width="800"
             height="600"
           />
-          <div class="absolute inset-0 rounded-xl ring-1 ring-inset ring-black/10"></div>
-        </div>
-        
-        <!-- Floating elements for extra visual interest -->
-        <div class="absolute -right-4 -top-4 z-10 hidden md:block float-element">
-          <div class="flex h-20 w-20 items-center justify-center rounded-full shadow-lg" style="background-color: rgba(79, 70, 229, 0.1); box-shadow: var(--shadow-lg);">
-            <Icon name="mdi:chart-pie" class="h-10 w-10" style="color: var(--color-primary);" />
+          <div
+            class="absolute inset-0 rounded-xl ring-1 ring-black/10 ring-inset"
+          >
           </div>
         </div>
-        <div class="absolute -left-4 bottom-10 z-10 hidden md:block float-element-reverse">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full shadow-lg" style="background-color: rgba(14, 165, 233, 0.1); box-shadow: var(--shadow-lg);">
-            <Icon name="mdi:lightbulb" class="h-8 w-8" style="color: var(--color-secondary);" />
+
+        <!-- Floating elements for extra visual interest -->
+        <div
+          class="float-element absolute -top-4 -right-4 z-10 hidden md:block"
+        >
+          <div
+            class="flex h-20 w-20 items-center justify-center rounded-full shadow-lg"
+            style="background-color: rgb(79 70 229 / 10%); box-shadow: var(--shadow-lg);"
+          >
+            <Icon
+              name="mdi:chart-pie"
+              class="h-10 w-10"
+              style="color: var(--color-primary);"
+            />
+          </div>
+        </div>
+        <div
+          class="float-element-reverse absolute bottom-10 -left-4 z-10 hidden md:block"
+        >
+          <div
+            class="flex h-16 w-16 items-center justify-center rounded-full shadow-lg"
+            style="background-color: rgb(14 165 233 / 10%); box-shadow: var(--shadow-lg);"
+          >
+            <Icon
+              name="mdi:lightbulb"
+              class="h-8 w-8"
+              style="color: var(--color-secondary);"
+            />
           </div>
         </div>
       </div>
@@ -122,174 +171,203 @@ const {
       opacity: 0;
       transform: translateY(30px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-  
+
   /* Animation for dashboard mockup */
   .float-in {
     animation: floatIn 1s ease-out forwards;
   }
-  
+
   @keyframes floatIn {
     from {
       opacity: 0;
       transform: translateY(40px) scale(0.9);
     }
+
     to {
       opacity: 1;
       transform: translateY(0) scale(1);
     }
   }
-  
+
   /* Animation for floating elements */
   .float-element {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   .float-element-reverse {
     animation: floatReverse 7s ease-in-out infinite;
   }
-  
+
   @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
-    100% { transform: translateY(0px); }
+    0% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-15px);
+    }
+
+    100% {
+      transform: translateY(0);
+    }
   }
-  
+
   @keyframes floatReverse {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(15px); }
-    100% { transform: translateY(0px); }
+    0% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(15px);
+    }
+
+    100% {
+      transform: translateY(0);
+    }
   }
-  
+
   /* Stats animation */
   .stat-item {
     animation: fadeIn 1.2s ease-out forwards;
     animation-delay: 0.5s;
     opacity: 0;
   }
-  
+
   .stat-item:nth-child(2) {
     animation-delay: 0.7s;
   }
-  
+
   .stat-item:nth-child(3) {
     animation-delay: 0.9s;
   }
-  
+
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
   }
-  
+
   /* Button animations */
   .button-pop {
     transition: transform 0.2s;
   }
-  
+
   .button-pop:hover {
     transform: translateY(-2px);
     background-color: var(--color-primary-dark);
   }
-  
+
   .button-pulse {
     position: relative;
     overflow: hidden;
   }
-  
-  .button-pulse:after {
-    content: '';
+
+  .button-pulse::after {
+    content: "";
     position: absolute;
     top: 50%;
     left: 50%;
     width: 5px;
     height: 5px;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgb(255 255 255 / 80%);
     opacity: 0;
     border-radius: 100%;
     transform: scale(1, 1) translate(-50%);
     transform-origin: 50% 50%;
   }
-  
-  .button-pulse:hover:after {
+
+  .button-pulse:hover::after {
     animation: ripple 1.2s ease-out;
   }
-  
+
   .button-pulse:hover {
     background-color: var(--color-background-alt);
   }
-  
+
   @keyframes ripple {
     0% {
       transform: scale(0, 0);
       opacity: 0.5;
     }
+
     20% {
       transform: scale(25, 25);
       opacity: 0.3;
     }
+
     100% {
       opacity: 0;
       transform: scale(40, 40);
     }
   }
-  
+
   /* Background blobs */
   .blob {
     position: absolute;
     border-radius: 50%;
     filter: blur(60px);
   }
-  
+
   .blob-1 {
     width: 600px;
     height: 600px;
     left: -100px;
     top: -100px;
-    background: rgba(124, 58, 237, 0.05);
+    background: rgb(124 58 237 / 5%);
     animation: blob-move 25s infinite alternate;
   }
-  
+
   .blob-2 {
     width: 400px;
     height: 400px;
     right: -50px;
     top: 30%;
-    background: rgba(56, 189, 248, 0.05);
+    background: rgb(56 189 248 / 5%);
     animation: blob-move 18s infinite alternate-reverse;
   }
-  
+
   .blob-3 {
     width: 300px;
     height: 300px;
     bottom: 10%;
     left: 20%;
-    background: rgba(251, 113, 133, 0.05);
+    background: rgb(251 113 133 / 5%);
     animation: blob-move 15s infinite alternate;
   }
-  
+
   @keyframes blob-move {
     0% {
       transform: translate(0, 0) scale(1);
     }
+
     33% {
       transform: translate(20px, -20px) scale(1.05);
     }
+
     66% {
       transform: translate(-20px, 20px) scale(0.95);
     }
+
     100% {
       transform: translate(0, 0) scale(1);
     }
   }
-  
+
   /* Grid pattern */
   .grid-pattern {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-image:
+      linear-gradient(rgb(0 0 0 / 5%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(0 0 0 / 5%) 1px, transparent 1px);
     background-size: 25px 25px;
     height: 100%;
     width: 100%;

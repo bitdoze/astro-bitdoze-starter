@@ -15,7 +15,8 @@ export interface CTAConfig {
 // This is the shared CTA configuration used across all pages
 export const ctaConfig: CTAConfig = {
   title: "Ready to transform your business?",
-  description: "Get started today and see the difference our services can make for your business growth and success.",
+  description:
+    "Get started today and see the difference our services can make for your business growth and success.",
   primaryAction: {
     text: "Get Started",
     href: "/contact",
@@ -35,9 +36,11 @@ export const getCtaSection = () => ({
     text: ctaConfig.primaryAction.text,
     link: ctaConfig.primaryAction.href,
   },
-  ctaSecondary: ctaConfig.secondaryAction ? {
-    text: ctaConfig.secondaryAction.text,
-    link: ctaConfig.secondaryAction.href,
-  } : undefined,
+  ctaSecondary: ctaConfig.secondaryAction
+    ? {
+        text: ctaConfig.secondaryAction.text,
+        link: ctaConfig.secondaryAction.href,
+      }
+    : undefined,
   trustedBy: "Trusted by leading companies worldwide",
 });

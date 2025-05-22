@@ -1,96 +1,137 @@
 ---
-import { Icon } from "astro-icon/components";
+import { Icon } from "astro-icon/components"; // Keep for social media icons
+// import { Image } from "astro:assets"; // Potentially remove if not used elsewhere
 import { navConfig } from "../config/nav";
 import { companyConfig } from "../config/company";
 import { ctaConfig } from "../config/cta";
+import { imageAssets } from "../config/assets";
 
 interface Props {
   companyName?: string;
   companyTagline?: string;
 }
 
-const { 
-  companyName = companyConfig.name, 
-  companyTagline = companyConfig.tagline
+const {
+  companyName = companyConfig.name,
+  companyTagline = companyConfig.tagline,
 } = Astro.props;
 
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="border-t" style="background-color: var(--color-background-alt); border-color: var(--color-text-lighter);">
-  <div class="container mx-auto">
+<footer
+  class="border-t"
+  style="background-color: var(--color-background-alt); border-color: var(--color-text-lighter);"
+>
+  <div class="container">
     <div class="grid grid-cols-1 gap-8 py-12 md:grid-cols-3 lg:grid-cols-5">
       <!-- Company info -->
       <div class="col-span-1 md:col-span-1 lg:col-span-2">
         <a href="/" class="flex items-center gap-2">
-          <Icon name={companyConfig.logo.icon} class="h-8 w-8" style="color: var(--color-primary);" />
-          <span class="font-semibold text-xl">{companyName}</span>
+          <img
+            src={imageAssets.logos.site.src}
+            alt={imageAssets.logos.site.alt || "Site Logo"}
+            width="120"
+            height="30"
+            class="h-auto"
+          />
+          <span class="text-xl font-semibold">{companyName}</span>
         </a>
-        <p class="mt-4 text-sm max-w-xs" style="color: var(--color-text-light);">
+        <p
+          class="mt-4 max-w-xs text-sm"
+          style="color: var(--color-text-light);"
+        >
           {companyTagline}
         </p>
         <div class="mt-6 flex space-x-4">
-          {companyConfig.socialMedia.map((social) => (
-            <a 
-              href={social.url} 
-              class="transition-colors" style="color: var(--color-text-lighter); transition: all var(--transition-normal);"
-              aria-label={social.platform}
-            >
-              <Icon name={social.icon} class="h-5 w-5" />
-            </a>
-          ))}
+          {
+            companyConfig.socialMedia.map((social) => (
+              <a
+                href={social.url}
+                class="text-text-lighter transition-colors hover:text-primary"
+                aria-label={social.platform}
+              >
+                <Icon name={social.icon} class="h-5 w-5" />
+              </a>
+            ))
+          }
         </div>
       </div>
 
       <!-- Navigation -->
       <div>
-        <h3 class="text-sm font-semibold" style="color: var(--color-text);">Resources</h3>
+        <h3 class="text-sm font-semibold" style="color: var(--color-text);">
+          Resources
+        </h3>
         <ul class="mt-4 space-y-3">
-          {navConfig.footerNav.resources.map((item) => (
-            <li>
-              <a href={item.href} class="text-sm transition-colors" style="color: var(--color-text-light); transition: all var(--transition-normal);">
-                {item.title}
-              </a>
-            </li>
-          ))}
+          {
+            navConfig.footerNav.resources.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="text-sm text-text-light transition-colors hover:text-primary"
+                >
+                  {item.title}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
       <div>
-        <h3 class="text-sm font-semibold" style="color: var(--color-text);">Company</h3>
+        <h3 class="text-sm font-semibold" style="color: var(--color-text);">
+          Company
+        </h3>
         <ul class="mt-4 space-y-3">
-          {navConfig.footerNav.company.map((item) => (
-            <li>
-              <a href={item.href} class="text-sm transition-colors" style="color: var(--color-text-light); transition: all var(--transition-normal);">
-                {item.title}
-              </a>
-            </li>
-          ))}
+          {
+            navConfig.footerNav.company.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="text-sm text-text-light transition-colors hover:text-primary"
+                >
+                  {item.title}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
       <div>
-        <h3 class="text-sm font-semibold" style="color: var(--color-text);">Legal</h3>
+        <h3 class="text-sm font-semibold" style="color: var(--color-text);">
+          Legal
+        </h3>
         <ul class="mt-4 space-y-3">
-          {navConfig.footerNav.legal.map((item) => (
-            <li>
-              <a href={item.href} class="text-sm transition-colors" style="color: var(--color-text-light); transition: all var(--transition-normal);">
-                {item.title}
-              </a>
-            </li>
-          ))}
+          {
+            navConfig.footerNav.legal.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="text-sm text-text-light transition-colors hover:text-primary"
+                >
+                  {item.title}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
     </div>
 
     <!-- Bottom section with copyright -->
-    <div class="flex flex-col md:flex-row justify-between py-6 border-t" style="border-color: var(--color-text-lighter);">
+    <div
+      class="flex flex-col justify-between border-t py-6 md:flex-row"
+      style="border-color: var(--color-text-lighter);"
+    >
       <p class="text-sm" style="color: var(--color-text-lighter);">
-        &copy; {currentYear} {companyName}. All rights reserved.
+        &copy; {currentYear}
+        {companyName}. All rights reserved.
       </p>
       <div class="mt-4 md:mt-0">
-        <a 
-          href={ctaConfig.primaryAction.href} 
+        <a
+          href={ctaConfig.primaryAction.href}
           class="btn btn-primary inline-flex h-9 items-center justify-center px-4 py-2 text-sm font-medium text-white shadow"
         >
           {ctaConfig.primaryAction.text}
